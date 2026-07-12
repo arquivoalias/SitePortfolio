@@ -1,0 +1,252 @@
+/* Esconde a barra mas mantém a rolagem */
+
+.pdf-scroll {
+  overflow: auto;
+
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE */
+}
+
+.pdf-scroll::-webkit-scrollbar {
+  display: none;              /* Chrome/Safari */
+}
+/* ===========================
+   TICKER
+=========================== */
+
+.ticker{
+    overflow:hidden;
+    height:80px;
+
+    display:flex;
+    align-items:center;
+
+    border-top:.8px solid rgba(58,89,66,.18);
+    border-bottom:.8px solid rgba(58,89,66,.18);
+
+    background:#c4ccb5;
+}
+.ticker-track{
+    display:flex;
+    align-items:center;
+    width:max-content;
+    animation:ticker 26s linear infinite;
+}
+
+.ticker-block{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex:0 0 auto;
+
+    gap:28px;          /* espaço estrela → texto */
+    padding:0 54px;    /* espaço entre um bloco e outro */
+
+    white-space:nowrap;
+}
+.ticker-item{
+    display:flex;
+    align-items:center;
+    white-space:nowrap;
+    transition:
+        transform .28s ease,
+        color .28s ease;
+}
+.ticker-item span{
+    padding:0 42px;
+}
+.ticker-item:hover{
+    transform:translateY(-2px);
+}
+.ticker-star{
+    margin:0 22px;
+    flex-shrink:0;
+    transition:
+        transform .35s cubic-bezier(.22,.61,.36,1),
+        filter .35s ease;
+animation:tickerStarFloat 3.8s ease-in-out infinite;
+    transform-origin:center;
+}
+.ticker-item:hover .ticker-star{
+
+    transform:
+        rotate(24deg)
+        scale(1.18);
+
+    filter:brightness(1.15);
+}
+
+.ticker-text{
+
+    white-space:nowrap;
+
+    font-family:"Inconsolata";
+    font-size:13px;
+
+    font-weight:500;
+    
+
+    letter-spacing:.16em;
+
+    text-transform:uppercase;
+
+    color:#3A5942;
+}
+.hero-bento-copy{
+    width:4244px;
+    height:23320px;
+
+    position:relative;
+
+    margin-bottom:64px;
+
+    flex-shrink:0;
+}
+.ticker-block span {
+  font-family: "Inconsolata", monospace;
+  font-size: 0.84rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #3A5942;
+}
+
+.ticker-block svg{
+      width:18px;
+    height:18px;
+    flex-shrink:0;
+
+    flex:none;
+    
+
+    opacity:.85;
+
+    transform-origin:center;
+
+    animation:starFloat 4.5s ease-in-out infinite;
+
+    transition:
+        transform .35s ease,
+        opacity .35s ease;
+}
+@keyframes bentoScroll {
+  from {
+    transform: scale(0.0801) translateY(0px);
+  }
+
+  to {
+    transform: scale(0.0801) translateY(-23320px);
+  }
+}
+@keyframes ticker{
+
+    from{
+        transform:translate3d(0,0,0);
+    }
+
+    to{
+        transform:translate3d(-33.333%,0,0);
+    }
+
+}
+@keyframes starFloat{
+
+    0%{
+        transform:
+            rotate(0deg)
+            translateY(0px);
+    }
+
+    25%{
+        transform:
+            rotate(6deg)
+            translateY(-1px);
+    }
+
+    50%{
+        transform:
+            rotate(0deg)
+            translateY(-3px);
+    }
+
+    75%{
+        transform:
+            rotate(-6deg)
+            translateY(-1px);
+    }
+
+    100%{
+        transform:
+            rotate(0deg)
+            translateY(0px);
+    }
+
+}
+.ticker-block:nth-child(odd) svg{
+    animation-duration:4.8s;
+}
+
+.ticker-block:nth-child(even) svg{
+    animation-duration:5.6s;
+}
+@keyframes tickerStarFloat{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-2px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+.ticker-item:nth-child(2n) .ticker-star{
+
+    animation-duration:4.5s;
+}
+
+.ticker-item:nth-child(3n) .ticker-star{
+
+    animation-duration:5.2s;
+}
+
+.ticker-item:nth-child(5n) .ticker-star{
+
+    animation-duration:3.7s;
+}
+/* ==========================
+   HERO BENTO
+========================== */
+
+.hero-bento-track{
+    position:absolute;
+    top:0;
+    left:0;
+
+    width:4244px;
+
+    display:flex;
+    flex-direction:column;
+
+    transform-origin:top left;
+    will-change:transform;
+
+    animation:heroBentoScroll 90s linear infinite;
+}
+
+@keyframes heroBentoScroll{
+
+    from{
+        transform:scale(.0801) translateY(0);
+    }
+
+    to{
+        transform:scale(.0801) translateY(-49.85%);
+    }
+
+}
