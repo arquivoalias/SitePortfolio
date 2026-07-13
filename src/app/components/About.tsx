@@ -21,7 +21,7 @@ export default function About({
         <div className="px-6 md:px-12 max-w-7xl mx-auto">
 
           {/* Top: text + photo */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start md:items-center mb-20">
             <div>
               <p className="text-accent mb-6" style={{ fontFamily: "'Inconsolata', monospace", fontSize: "0.9rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>
                 Sobre

@@ -134,33 +134,37 @@ const onTouchEnd = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[999] flex items-center justify-center p-6 overflow-y-auto"
+      className="
+fixed
+inset-0
+z-[999]
+flex
+justify-center
+overflow-y-auto overflow-x-hidden
+"
       onClick={() => setLightbox(null)}
       style={{
-        background: "rgba(20,20,20,.55)",
-        backdropFilter: "blur(22px)",
-        WebkitBackdropFilter: "blur(22px)",
-        animation: "fadeIn .25s ease",
-      }}
+  padding: "32px 24px",
+  background: "rgba(20,20,20,.55)",
+  backdropFilter: "blur(22px)",
+  WebkitBackdropFilter: "blur(22px)",
+  animation: "fadeIn .25s ease",
+}}
     >
               <div
         className="relative w-full max-w-[90vw] flex flex-col items-center"
         onClick={(e) => e.stopPropagation()}
         style={{
           animation: "fadeIn .3s ease",
-          paddingTop:40,
         }}
       >
         {/* Botão fechar */}
         <button
           onClick={() => setLightbox(null)}
           className="
-fixed
-top-4
-right-4
-md:absolute
-md:top-0
-md:right-0
+absolute
+top-0
+right-0
 flex
 items-center
 justify-center
@@ -168,6 +172,7 @@ rounded-none
 transition-all
 duration-200
 hover:scale-110
+z-20
 "
           style={{
             width: 48,
@@ -180,15 +185,16 @@ hover:scale-110
         >
           <X size={20} strokeWidth={2} />
         </button>
+       
 
         {/* Navegação esquerda */}
         {hasPrev && (
           <button
             onClick={prevImage}
-            className="hidden md:flex absolute left-0 top-[40%] -translate-x-16 -translate-y-1/2 rounded-none transition-all duration-200 hover:scale-110"
+            className="hidden lg:flex absolute left-0 top-[40%] -translate-y-1/2 rounded-none transition-all duration-200 hover:scale-110"
             style={{
-  width: 52,
-  height: 52,
+  width: 48,
+  height: 48,
   alignItems: "center",
   justifyContent: "center",
   padding: 0,
@@ -205,10 +211,10 @@ hover:scale-110
         {hasNext && (
           <button
             onClick={nextImage}
-            className="hidden md:flex absolute right-0 top-[40%] translate-x-16 -translate-y-1/2 rounded-none transition-all duration-200 hover:scale-110"
+            className="hidden lg:flex absolute right-0 top-[40%] -translate-y-1/2 rounded-none transition-all duration-200 hover:scale-110"
             style={{
-  width: 52,
-  height: 52,
+  width: 48,
+  height: 48,
   alignItems: "center",
   justifyContent: "center",
   padding: 0,
@@ -220,7 +226,15 @@ hover:scale-110
             <ArrowRight size={20} strokeWidth={1.8} color="#fff"/>
           </button>
         )}
-
+<div
+  style={{
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: "64px",
+  }}
+>
         {/* Imagem */}
         {isVideo ? (
   <video
@@ -235,8 +249,8 @@ onTouchEnd={onTouchEnd}
   loop
   playsInline
   style={{
-    maxWidth: "90vw",
-    maxHeight: "68vh",
+    maxWidth: "100%",
+    maxHeight: "calc(100vh - 180px)",
     width: "auto",
     height: "auto",
     boxShadow: "0 28px 80px rgba(0,0,0,.35)",
@@ -256,8 +270,8 @@ onTouchMove={onTouchMove}
 onTouchEnd={onTouchEnd}
     className="object-contain rounded-sm"
     style={{
-      maxWidth: "90vw",
-      maxHeight: "68vh",
+      maxWidth: "100%",
+      maxHeight: "calc(100vh - 180px)",
       width: "auto",
       height: "auto",
       boxShadow: "0 28px 80px rgba(0,0,0,.35)",
@@ -268,7 +282,7 @@ transition: touchStart
     }}
   />
 )}
-
+</div>
         {/* Contador */}
         {lightbox.images.length > 1 && (
           <p

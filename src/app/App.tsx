@@ -60,7 +60,7 @@ const [starOffset, setStarOffset] = useState({ x: 0, y: 0 });
   const displayedProjects = activeTag !== null || showAll ? filtered : filtered.slice(0, 6);
   const hasMore = activeTag === null && !showAll && filtered.length > 6;
 const [pdfScale, setPdfScale] = useState(
-  window.innerWidth < 768 ? 0.6 : 0.8
+  window.innerWidth < 1024 ? 0.6 : 0.8
 );
 
   useEffect(() => {

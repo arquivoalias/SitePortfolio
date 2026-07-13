@@ -23,6 +23,10 @@ export default function ProjectCard({
 
 const ref = useRef<HTMLDivElement>(null);
 const [changing, setChanging] = useState(false);
+const [touchStart, setTouchStart] = useState<number | null>(null);
+const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+const minSwipeDistance = 50;
 const changeImage = (next: number) => {
   setChanging(true);
 
@@ -30,6 +34,31 @@ const changeImage = (next: number) => {
     setImgIdx(next);
     setChanging(false);
   }, 180);
+};
+const onTouchStart = (e: React.TouchEvent) => {
+  setTouchEnd(null);
+  setTouchStart(e.targetTouches[0].clientX);
+};
+
+const onTouchMove = (e: React.TouchEvent) => {
+  setTouchEnd(e.targetTouches[0].clientX);
+};
+
+const onTouchEnd = () => {
+  if (touchStart === null || touchEnd === null) return;
+
+  const distance = touchStart - touchEnd;
+
+  if (distance > minSwipeDistance && imgIdx < images.length - 1) {
+    changeImage(imgIdx + 1);
+  }
+
+  if (distance < -minSwipeDistance && imgIdx > 0) {
+    changeImage(imgIdx - 1);
+  }
+
+  setTouchStart(null);
+  setTouchEnd(null);
 };
 useEffect(() => {
   const observer = new IntersectionObserver(
@@ -88,6 +117,9 @@ hover:-translate-y-2
         onClick={() =>
           onImageClick(images, imgIdx, project)
         }
+        onTouchStart={onTouchStart}
+onTouchMove={onTouchMove}
+onTouchEnd={onTouchEnd}
       >
        {isVideo ? (
   <video
@@ -177,6 +209,8 @@ ${changing ? "opacity-0" : "opacity-100"}
               changeImage(imgIdx - 1);
             }}
             className="
+hidden
+md:flex
 absolute
 left-1
 top-1/2
@@ -186,7 +220,6 @@ opacity-0
 group-hover:opacity-100
 transition-opacity
 
-flex
 items-center
 justify-center
 
@@ -210,6 +243,8 @@ h-12
               changeImage(imgIdx + 1);
             }}
             className="
+hidden
+md:flex
 absolute
 right-1
 top-1/2
@@ -219,7 +254,6 @@ opacity-0
 group-hover:opacity-100
 transition-opacity
 
-flex
 items-center
 justify-center
 

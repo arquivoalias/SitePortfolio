@@ -64,7 +64,7 @@ useEffect(() => {
       >
 {/* Bento */}
 <div
-  className="hidden md:block shrink-0 overflow-hidden"
+  className="hidden lg:block shrink-0 overflow-hidden"
   style={{
     width: 340,
     position: "relative",

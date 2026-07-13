@@ -17,7 +17,8 @@ export default function Header({
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [hovered, setHovered] = useState("");
-const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+const [isMobile, setIsMobile] =
+  useState(window.innerWidth < 1024);
   useEffect(() => {
   const sections = ["home", "projetos", "sobre", "contato"];
 
@@ -61,7 +62,7 @@ useEffect(() => {
 }, []);
 useEffect(() => {
   const handleResize = () => {
-    setIsMobile(window.innerWidth < 768);
+    setIsMobile(window.innerWidth < 1024);
   };
 
   window.addEventListener("resize", handleResize);
@@ -110,7 +111,7 @@ transition: "color .45s ease", }}
               Valentina Real | Designer
             </span>
           </button>
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-10">
             {[
               { label: "Projetos", id: "projetos" },
               { label: "Sobre", id: "sobre" },
@@ -153,7 +154,7 @@ onMouseLeave={(e) => {
               </MagneticButton>
             ))}
           </div>
-          <button className="md:hidden" style={{
+          <button className="lg:hidden" style={{
  color: isMobile || scrolled
     ? "white"
     : "var(--foreground)",
@@ -164,7 +165,7 @@ onMouseLeave={(e) => {
         </div>
         {menuOpen && (
   <div
-    className="md:hidden px-6 py-7 flex flex-col gap-5"
+    className="lg:hidden px-6 py-7 flex flex-col gap-5"
     style={{
       background: "rgba(94,126,103,.92)",
       backdropFilter: "blur(18px)",
