@@ -672,6 +672,20 @@ inline-flex
   <div>Design &amp; dev por Valentina Real</div>
   <div>© 2026</div>
 </div> 
+<div
+  className="xl:hidden -mt-5 pb-2 text-center"
+  style={{
+    fontFamily: "'Inconsolata', monospace",
+    fontSize: "0.55rem",
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: "rgba(232,238,224,.45)",
+    lineHeight: 1.4,
+  }}
+>
+  <div>Design &amp; dev por Valentina Real</div>
+  <div>© 2026</div>
+</div>
       </footer>
     </div>
   );
