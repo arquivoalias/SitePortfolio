@@ -570,7 +570,12 @@ group-hover:rotate-12
 
       {/* ── FOOTER ── */}
       <footer className="bg-primary relative">
-  <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+  <div
+  className="max-w-7xl mx-auto px-6 md:px-12 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+  style={{
+  paddingRight: "clamp(0px, 10vw, 190px)",
+}}
+>
           <div>
             <p className="text-primary-foreground/90" style={{ fontFamily: "'Inconsolata', monospace", fontSize: "1rem", letterSpacing: "0.02em" }}>
               UFRJ — Escola de Belas Artes
@@ -579,8 +584,8 @@ group-hover:rotate-12
               Comunicação Visual Design
             </p>
           </div>
-          <div className="hidden md:block flex-1 mx-8 h-px bg-primary-foreground/20" />
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-5 shrink-0 xl:pr-40"/>
+          <div className="flex items-center gap-5 shrink-0">
             {/* Instagram */}
             <MagneticButton><a href="https://www.instagram.com/arquivoalias" className="
 text-primary-foreground/60
@@ -654,14 +659,15 @@ inline-flex
               <Mail size={17} />
             </a>
              </div>
-        </div>
-        <div
-  className="hidden xl:block absolute top-1/2 -translate-y-1/2"
+             
+        {/* assinatura desktop */}
+    <div
+  className="hidden 2xl:block absolute top-1/2 -translate-y-1/2"
   style={{
     right: "3rem",
     fontFamily: "'Inconsolata', monospace",
-    fontSize: "0.62rem",
-    letterSpacing: "0.08em",
+    fontSize: "clamp(0.50rem, 0.50vw, 0.62rem)",
+    letterSpacing: "clamp(0.03em, 0.08vw, 0.08em)",
     textTransform: "uppercase",
     color: "rgba(232,238,224,.45)",
     textAlign: "right",
@@ -671,22 +677,27 @@ inline-flex
 >
   <div>Design &amp; dev por Valentina Real</div>
   <div>© 2026</div>
-</div> 
-<div
-  className="xl:hidden -mt-5 pb-2 text-center"
-  style={{
-    fontFamily: "'Inconsolata', monospace",
-    fontSize: "0.55rem",
-    letterSpacing: "0.08em",
-    textTransform: "uppercase",
-    color: "rgba(232,238,224,.45)",
-    lineHeight: 1.4,
-  }}
->
-  <div>Design &amp; dev por Valentina Real</div>
-  <div>© 2026</div>
 </div>
-      </footer>
+
+  </div>
+
+  {/* assinatura mobile */}
+  <div
+    className="xl:hidden -mt-5 pb-2 text-center"
+    style={{
+      fontFamily: "'Inconsolata', monospace",
+      fontSize: "0.55rem",
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: "rgba(232,238,224,.45)",
+      lineHeight: 1.4,
+    }}
+  >
+    <div>Design &amp; dev por Valentina Real</div>
+    <div>© 2026</div>
+  </div>
+
+</footer>
     </div>
   );
 }
