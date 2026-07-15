@@ -1,26 +1,15 @@
-import { Project } from "./types/Project";
 import StarCursor from "./components/StarCursor";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect} from "react";
 import {
   ArrowUpRight,
-  Menu,
   X,
   Mail,
   Instagram,
   Linkedin,
 } from "lucide-react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import profilePhoto from "@/imports/image-1.png";
-import FotoDePerfil from "@/imports/FotoDePerfil-6/index";
-import FotoDePerfilVerde from "@/imports/FotoDePerfil-5/index";
-import FotoDePerfilHeader from "@/imports/FotoDePerfil-8/index";
-import cvImage from "@/imports/image.png";
-import FotoDePerfilDetalhe from "@/imports/FotoDePerfil-7/index";
-import tickerPaths from "@/imports/Container-2/svg-4f1wn8qbk3";
 import contactStarPaths from "@/imports/Container-1/svg-9u2cjo38cc";
-import CursorIcon from "@/imports/Cursor/index";
 import MagneticButton from "./components/MagneticButton";
-import { projects } from "./data/projects";
 import Hero from "./components/Hero";
 import Header from "./components/Header";
 import About from "./components/About";
@@ -31,56 +20,25 @@ import Ticker from "./components/Ticker";
 pdfjs.GlobalWorkerOptions.workerSrc =
   `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-// ── Brand badge wrapper ───────────────────────────────────────────────────────
-function LogoBadge({ size = 48 }: { size?: number }) {
-  return (
-    <div style={{ width: size, height: size, flexShrink: 0 }} aria-label="Valentina Real — logo">
-      <FotoDePerfil />
-    </div>
-  );
-}
+
 
 
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeTag, setActiveTag] = useState<string | null>(null);
-  const [showAll, setShowAll] = useState(false);
-  const [lightbox, setLightbox] = useState<{ images: string[]; idx: number; project: (typeof projects)[0] } | null>(null);
+
   const [cvOpen, setCvOpen] = useState(false);
 const [starOffset, setStarOffset] = useState({ x: 0, y: 0 });
-  const allCategoryTags = Array.from(new Set(projects.flatMap((p) => p.tags)));
-  const allToolTags = Array.from(new Set(projects.flatMap((p) => p.tools)));
 
-  const filtered = activeTag
-    ? projects.filter((p) => p.tags.includes(activeTag) || p.tools.includes(activeTag))
-    : projects;
+const [pdfScale, setPdfScale] = useState(0.8);
 
-  const displayedProjects = activeTag !== null || showAll ? filtered : filtered.slice(0, 6);
-  const hasMore = activeTag === null && !showAll && filtered.length > 6;
-const [pdfScale, setPdfScale] = useState(
-  window.innerWidth < 1024 ? 0.6 : 0.8
-);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    if (!lightbox) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setLightbox(null);
-      if (e.key === "ArrowRight" && lightbox.idx < lightbox.images.length - 1)
-        setLightbox((lb) => lb && { ...lb, idx: lb.idx + 1 });
-      if (e.key === "ArrowLeft" && lightbox.idx > 0)
-        setLightbox((lb) => lb && { ...lb, idx: lb.idx - 1 });
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightbox]);
+useEffect(() => {
+  const updateScale = () => setPdfScale(window.innerWidth < 1024 ? 0.6 : 0.8);
+  updateScale();
+  window.addEventListener("resize", updateScale);
+  return () => window.removeEventListener("resize", updateScale);
+}, []);
 
   const scrollTo = (id: string) => {
   const section = document.getElementById(id);
@@ -110,90 +68,6 @@ const [pdfScale, setPdfScale] = useState(
 
   return (
     <div className="bg-background text-foreground min-h-screen overflow-x-hidden" style={{ fontFamily: "'Outfit', sans-serif" }}>
-
-      {/* ── LIGHTBOX ── */}
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-[100] flex flex-col md:flex-row items-center justify-center gap-6 p-6 md:p-12"
-          style={{ backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", background: "rgba(0,0,0,.72)" }}
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-5 right-5 flex items-center justify-center transition-all hover:bg-foreground/10"
-            style={{ width: 40, height: 40, color: "var(--foreground)", border: "1.5px solid var(--foreground)" }}
-            onClick={() => setLightbox(null)} aria-label="Fechar"
-          >
-            <X size={18} strokeWidth={1.5} />
-          </button>
-
-          {/* Image */}
-<div
-  className="relative flex-shrink-0"
-  onClick={(e) => e.stopPropagation()}
->
-            <img
-              src={lightbox.images[lightbox.idx]}
-              alt={lightbox.project.title}
-              className="object-contain"
-              style={{ maxHeight: "75vh", maxWidth: "min(90vw, 600px)", boxShadow: "0 16px 60px rgba(0,0,0,0.18)" }}
-            />
-            {/* Prev/next arrows */}
-            {lightbox.images.length > 1 && lightbox.idx > 0 && (
-              <button
-                className="absolute left-2 top-1/2 -translate-y-1/2 flex items-center justify-center transition-all hover:opacity-100"
-                style={{ width: 36, height: 36, background: "var(--background)", border: "1.5px solid var(--foreground)", opacity: 0.8 }}
-                onClick={(e) => {
-  e.stopPropagation();
-  setLightbox((lb) => lb && { ...lb, idx: lb.idx - 1 });
-}}
-                aria-label="Imagem anterior"
-              >
-                <ArrowUpRight size={16} strokeWidth={1.5} style={{ transform: "rotate(225deg)" }} />
-              </button>
-            )}
-            {lightbox.images.length > 1 && lightbox.idx < lightbox.images.length - 1 && (
-              <button
-                className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center transition-all hover:opacity-100"
-                style={{ width: 36, height: 36, background: "var(--background)", border: "1.5px solid var(--foreground)", opacity: 0.8 }}
-                onClick={(e) => {
-  e.stopPropagation();
-  setLightbox((lb) => lb && { ...lb, idx: lb.idx + 1 });
-}}
-                aria-label="Próxima imagem"
-              >
-                <ArrowUpRight size={16} strokeWidth={1.5} style={{ transform: "rotate(45deg)" }} />
-              </button>
-            )}
-          </div>
-
-          {/* Project info panel */}
-          <div
-            className="flex-shrink-0 max-w-xs w-full md:w-64"
-            style={{ background: "var(--card)", padding: "24px", border: "1px solid var(--border)" }}
-           
-          >
-            <p className="text-accent mb-1" style={{ fontFamily: "'Inconsolata', monospace", fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-              {lightbox.project.category}
-            </p>
-            <h3 className="text-foreground mb-3" style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 600, fontSize: "1.05rem", letterSpacing: "-0.02em" }}>
-              {lightbox.project.title}
-            </h3>
-            <p className="text-muted-foreground mb-4 leading-relaxed" style={{ fontSize: "0.85rem", textWrap: "balance" } as React.CSSProperties}>
-              {lightbox.project.description}
-            </p>
-            <div className="flex gap-1.5 flex-wrap mb-3">
-              {lightbox.project.tags.map((t) => (
-                <span key={t} className="px-2 py-0.5" style={{ fontFamily: "'Inconsolata', monospace", fontSize: "0.6rem", letterSpacing: "0.04em", color: "#b84d6a", background: "rgba(184,77,106,0.12)" }}>{t}</span>
-              ))}
-            </div>
-            <div className="flex gap-1.5 flex-wrap">
-              {lightbox.project.tools.map((t) => (
-                <span key={t} className="px-2 py-0.5" style={{ fontFamily: "'Inconsolata', monospace", fontSize: "0.6rem", letterSpacing: "0.04em", color: "var(--foreground)", background: "rgba(58,89,66,0.1)" }}>{t}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── CV MODAL ── */}
       {cvOpen && (
@@ -297,9 +171,11 @@ const [pdfScale, setPdfScale] = useState(
     }}
   >
   <Document
-    file="/Curriculo_ValentinaReal.pdf"
-    loading="Carregando currículo..."
-  >
+  file="/Curriculo_ValentinaReal.pdf"
+  loading="Carregando currículo..."
+  error="Não foi possível carregar o currículo. Tente o botão de download abaixo."
+  onLoadError={(err) => console.error("Erro ao carregar PDF:", err)}
+>
     <Page
       pageNumber={1}
       scale={pdfScale}
@@ -383,7 +259,7 @@ const [pdfScale, setPdfScale] = useState(
   }
 }
       `}</style>
-{/* <Hero /> */}
+
     <Hero />
 
       <Ticker />
@@ -584,7 +460,7 @@ group-hover:rotate-12
               Comunicação Visual Design
             </p>
           </div>
-          <div className="flex items-center gap-5 shrink-0 xl:pr-40"/>
+          
           <div className="flex items-center gap-5 shrink-0">
             {/* Instagram */}
             <MagneticButton><a href="https://www.instagram.com/arquivoalias" className="
@@ -703,178 +579,4 @@ inline-flex
 }
 
 
-// ── Typewriter Text ────────────────────────────────────────────────────────────
-function TypewriterText({ text }: { text: string }) {
-  const [len, setLen] = useState(0);
-  const [active, setActive] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setActive(true); io.disconnect(); } }, { threshold: 0.5 });
-    if (ref.current) io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
-  useEffect(() => {
-    if (!active || len >= text.length) return;
-    const t = setTimeout(() => setLen((l) => l + 1), 55);
-    return () => clearTimeout(t);
-  }, [active, len, text.length]);
-  return (
-    <span ref={ref} style={{ position: "relative", display: "inline-block" }}>
-      <span style={{ visibility: "hidden" }}>{text}</span>
-      <span style={{ position: "absolute", left: 0, top: 0, whiteSpace: "nowrap" }}>
-        {active ? text.slice(0, len) : ""}
-        {active && len < text.length && (
-          <span style={{ borderRight: "3px solid currentColor", animation: "blink 0.6s step-end infinite", marginLeft: "1px" }}>&nbsp;</span>
-        )}
-      </span>
-    </span>
-  );
-}
 
-// ── Filter Tag ────────────────────────────────────────────────────────────────
-function FilterTag({
-  label,
-  active,
-  variant,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  variant: "category" | "tool";
-  onClick: () => void;
-}) {
-  const [hovered, setHovered] = useState(false);
-
-  const btnStyle = variant === "tool"
-    ? { fontFamily: "'Inconsolata', monospace", fontSize: "0.75rem", letterSpacing: "0.06em", background: active ? "var(--foreground)" : hovered ? "rgba(58,89,66,0.15)" : "transparent", color: active ? "var(--primary-foreground)" : "var(--foreground)", border: `1px solid ${active ? "var(--foreground)" : "rgba(58,89,66,0.25)"}` }
-    : { fontFamily: "'Inconsolata', monospace", fontSize: "0.75rem", letterSpacing: "0.06em", background: active ? "#b84d6a" : hovered ? "rgba(184,77,106,0.12)" : "transparent", color: active ? "#e8eee0" : "#b84d6a", border: `1px solid ${active ? "#b84d6a" : "rgba(184,77,106,0.2)"}` };
-
-  return (
-    <MagneticButton strength={0.2}>
-      <button onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} className="px-4 py-1.5 transition-all duration-200" style={btnStyle}>
-        {label}
-      </button>
-    </MagneticButton>
-  );
-}
-
-// ── Project Card ──────────────────────────────────────────────────────────────
-function ProjectCard({
-  project,
-  large,
-  onImageClick,
-}: {
-  project: (typeof projects)[0];
-  large: boolean;
-  onImageClick: (images: string[], idx: number, project: (typeof projects)[0]) => void;
-}) {
-  const [imgIdx, setImgIdx] = useState(0);
-  const { images } = project;
-  const hasMultiple = images.length > 1;
-  const currentFile = images[imgIdx];
-
-const isVideo =
-  currentFile.toLowerCase().endsWith(".mp4") ||
-  currentFile.toLowerCase().endsWith(".webm") ||
-  currentFile.toLowerCase().endsWith(".mov");
-  const cardBg = (project as any).cardBg as string | undefined;
-
-  return (
-    <div className="group cursor-pointer">
-      <div
-      onMouseMove={(e) => {
-  const rect = e.currentTarget.getBoundingClientRect();
-
-  const x = (e.clientX - rect.left) / rect.width;
-  const y = (e.clientY - rect.top) / rect.height;
-
-  
-}}
-
-
-        className={`relative overflow-hidden ${large ? "aspect-[16/10]" : "aspect-[4/3]"   }`}
-        style={{ background: cardBg ?? "var(--secondary)" }}
-        onClick={() => onImageClick(images, imgIdx, project)}
-      >
-        {isVideo ? (
-  <video
-    src={currentFile}
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="absolute h-full w-auto max-w-none left-1/2 -translate-x-1/2 transition-transform duration-700 group-hover:scale-[1.015]"
-  />
-) : (
-  <img
-    src={currentFile}
-    alt={project.title}
-    className="absolute h-full w-auto max-w-none left-1/2 -translate-x-1/2 transition-transform duration-700 group-hover:scale-[1.015]"
-  />
-)}
-        <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-all duration-500" />
-
-        {hasMultiple && imgIdx > 0 && (
-          <button
-            className="absolute left-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity z-10 text-foreground hover:text-accent"
-            onClick={(e) => { e.stopPropagation(); setImgIdx((i) => i - 1); }}
-            aria-label="Imagem anterior"
-          >
-            <ArrowUpRight size={20} strokeWidth={1.5} style={{ transform: "rotate(225deg)" }} />
-          </button>
-        )}
-        {hasMultiple && imgIdx < images.length - 1 && (
-          <button
-            className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity z-10 text-foreground hover:text-accent"
-            onClick={(e) => { e.stopPropagation(); setImgIdx((i) => i + 1); }}
-            aria-label="Próxima imagem"
-          >
-            <ArrowUpRight size={20} strokeWidth={1.5} style={{ transform: "rotate(45deg)" }} />
-          </button>
-        )}
-      </div>
-
-      <div className="pt-4">
-        <h3
-          className="text-foreground tracking-tight mb-1"
-          style={{ fontFamily: "'Outfit', sans-serif", fontSize: large ? "1.3rem" : "1.05rem", fontWeight: 600, letterSpacing: "-0.025em" }}
-        >
-          {project.title}
-        </h3>
-        <p
-          className="text-muted-foreground leading-relaxed"
-          style={{ fontSize: "0.85rem", textWrap: "balance" } as React.CSSProperties}
-        >
-          {project.description}
-        </p>
-      </div>
-
-      <div className="mt-3 pb-5 border-b border-accent/30">
-        {/* Category tags (pink) */}
-        <div className="flex gap-2 flex-wrap mb-1.5">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2.5 py-1"
-              style={{ fontFamily: "'Inconsolata', monospace", fontSize: "0.65rem", letterSpacing: "0.02em", color: "#b84d6a", background: "rgba(184,77,106,0.12)" }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        {/* Tool tags (green) */}
-        <div className="flex gap-2 flex-wrap">
-          {project.tools.map((tool) => (
-            <span
-              key={tool}
-              className="px-2.5 py-1"
-              style={{ fontFamily: "'Inconsolata', monospace", fontSize: "0.65rem", letterSpacing: "0.02em", color: "var(--foreground)", background: "rgba(58,89,66,0.12)" }}
-            >
-              {tool}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}

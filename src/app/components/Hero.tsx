@@ -1,14 +1,16 @@
 import HeroBento from "./HeroBento";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, memo } from "react";
 import TypewriterText from "./TypewriterText";
 
-      export default function Hero() {
-        const [visible, setVisible] = useState(false);
-        const [startTyping, setStartTyping] = useState(false);
-        const [offset, setOffset] = useState({
-  x: 0,
-  y: 0,
-});
+const MemoHeroBento = memo(HeroBento);
+
+export default function Hero() {
+  const [visible, setVisible] = useState(false);
+  const [startTyping, setStartTyping] = useState(false);
+
+  const bentoRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const rafId = useRef<number | undefined>(undefined);
 
 useEffect(() => {
   const t = setTimeout(() => {
@@ -26,19 +28,29 @@ useEffect(() => {
 
 useEffect(() => {
   const handleMove = (e: MouseEvent) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+    if (rafId.current) return; // já tem um frame agendado, ignora
 
-    setOffset({
-      x,
-      y,
+    rafId.current = requestAnimationFrame(() => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+      if (bentoRef.current) {
+        bentoRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
+      if (textRef.current) {
+        textRef.current.style.transform = `translate3d(${-x * 0.18}px, ${-y * 0.18}px, 0)`;
+      }
+
+      rafId.current = undefined;
     });
   };
 
-  window.addEventListener("mousemove", handleMove);
+  window.addEventListener("mousemove", handleMove, { passive: true });
 
-  return () =>
+  return () => {
     window.removeEventListener("mousemove", handleMove);
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+  };
 }, []);
 
   return (
@@ -64,34 +76,26 @@ useEffect(() => {
       >
 {/* Bento */}
 <div
+  ref={bentoRef}
   className="hidden lg:block shrink-0 overflow-hidden"
   style={{
     width: 340,
     position: "relative",
     alignSelf: "stretch",
-
-    transform: `translate(${offset.x}px, ${offset.y}px)`,
-    transition: "transform .35s ease-out",
     willChange: "transform",
     background: "#CDD4BF",
   }}
 >
-  <HeroBento />
-
-
+  <MemoHeroBento />
 </div>
 
 
         {/* Texto */}
         <div
+  ref={textRef}
   className="flex flex-col items-end text-right justify-center flex-1"
   style={{
     gap: "0.5rem",
-
-    transform: `translate(${-offset.x * 0.18}px, ${-offset.y * 0.18}px)`,
-
-    transition: "transform .35s ease-out",
-
     willChange: "transform",
   }}
 >

@@ -17,8 +17,11 @@ export default function Header({
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [hovered, setHovered] = useState("");
-const [isMobile, setIsMobile] =
-  useState(window.innerWidth < 1024);
+const [isMobile, setIsMobile] = useState(false);
+
+useEffect(() => {
+  setIsMobile(window.innerWidth < 1024);
+}, []);
   useEffect(() => {
   const sections = ["home", "projetos", "sobre", "contato"];
 

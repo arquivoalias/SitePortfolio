@@ -25,25 +25,34 @@ const ref = useRef<HTMLDivElement>(null);
 const [changing, setChanging] = useState(false);
 const [touchStart, setTouchStart] = useState<number | null>(null);
 const [touchEnd, setTouchEnd] = useState<number | null>(null);
+const touchMoved = useRef(false);
 
 const minSwipeDistance = 50;
+const changeTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
 const changeImage = (next: number) => {
   setChanging(true);
 
-  setTimeout(() => {
+  changeTimeout.current = setTimeout(() => {
     setImgIdx(next);
     setChanging(false);
   }, 180);
 };
+
+useEffect(() => {
+  return () => {
+    if (changeTimeout.current) clearTimeout(changeTimeout.current);
+  };
+}, []);
 const onTouchStart = (e: React.TouchEvent) => {
   setTouchEnd(null);
   setTouchStart(e.targetTouches[0].clientX);
 };
 
 const onTouchMove = (e: React.TouchEvent) => {
+  touchMoved.current = true;
   setTouchEnd(e.targetTouches[0].clientX);
 };
-
 const onTouchEnd = () => {
   if (touchStart === null || touchEnd === null) return;
 
@@ -114,9 +123,13 @@ hover:-translate-y-2
         style={{
           background: project.cardBg ?? "var(--secondary)",
         }}
-        onClick={() =>
-          onImageClick(images, imgIdx, project)
-        }
+        onClick={() => {
+  if (touchMoved.current) {
+    touchMoved.current = false;
+    return;
+  }
+  onImageClick(images, imgIdx, project);
+}}
         onTouchStart={onTouchStart}
 onTouchMove={onTouchMove}
 onTouchEnd={onTouchEnd}
@@ -208,6 +221,7 @@ ${changing ? "opacity-0" : "opacity-100"}
               e.stopPropagation();
               changeImage(imgIdx - 1);
             }}
+            aria-label="Imagem anterior"
             className="
 hidden
 md:flex
@@ -242,6 +256,7 @@ h-12
               e.stopPropagation();
               changeImage(imgIdx + 1);
             }}
+            aria-label="Próxima imagem"
             className="
 hidden
 md:flex

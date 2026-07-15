@@ -94,6 +94,8 @@ animation:tickerStarFloat 3.8s ease-in-out infinite;
     color:#3A5942;
 }
 .hero-bento-copy{
+     content-visibility: auto;
+  contain-intrinsic-size: 4244px 23320px;
     width:4244px;
     height:23320px;
 
