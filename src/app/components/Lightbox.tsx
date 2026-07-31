@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type React from "react";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import type { Project } from "../types/Project";
@@ -93,6 +93,7 @@ const onTouchEnd = () => {
   setTouchStart(null);
   setTouchEnd(null);
 };
+const closeBtnRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -123,9 +124,8 @@ const onTouchEnd = () => {
     };
 
     window.addEventListener("keydown", handleKey);
-
     document.body.style.overflow = "hidden";
-
+closeBtnRef.current?.focus();
     return () => {
       window.removeEventListener("keydown", handleKey);
       document.body.style.overflow = "";
@@ -134,15 +134,11 @@ const onTouchEnd = () => {
 
   return (
     <div
-      className="
-fixed
-inset-0
-z-[999]
-flex
-justify-center
-overflow-y-auto overflow-x-hidden
-"
-      onClick={() => setLightbox(null)}
+  role="dialog"
+  aria-modal="true"
+  aria-label={lightbox.project.title}
+  className="fixed inset-0 z-[999] flex justify-center overflow-y-auto overflow-x-hidden"
+  onClick={() => setLightbox(null)}
       style={{
   padding: "32px 24px",
   background: "rgba(20,20,20,.55)",
@@ -160,6 +156,7 @@ overflow-y-auto overflow-x-hidden
       >
         {/* Botão fechar */}
         <button
+          ref={closeBtnRef}
           onClick={() => setLightbox(null)}
           className="
 absolute
