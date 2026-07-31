@@ -189,7 +189,7 @@ useEffect(() => {
 </div>
           <a
   href="/Curriculo_ValentinaReal.pdf"
-  download="Curriculo-Valentina-Real.pdf"
+  download="Curriculo_Valentina-Real.pdf"
   onClick={(e) => e.stopPropagation()}
   className="flex items-center gap-2 transition-colors hover:opacity-80"
   style={{
