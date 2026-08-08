@@ -20,6 +20,7 @@ import trioIndecenteVideo from "@/imports/trintasegundoshoje.mp4";
 import manual1 from "@/imports/manual1.png";
 import receituario from "@/imports/receituario.png"; 
 import jaleco from "@/imports/jalecomockup.png";
+
 // ── Data ─────────────────────────────────────────────────────────────────────
 export const projects: Project[] = [
   {
