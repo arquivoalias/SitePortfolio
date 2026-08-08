@@ -17,6 +17,9 @@ import mfLogo from "@/imports/mf_logo.png";
 import nunoCartaz from "@/imports/nuno.png";
 import manualAstrologo2 from "@/imports/mock2.png";
 import trioIndecenteVideo from "@/imports/trintasegundoshoje.mp4";
+import manual1 from "@/imports/manual1.png";
+import receituario from "@/imports/receituario.png"; 
+import jaleco from "@/imports/jalecomockup.png";
 // ── Data ─────────────────────────────────────────────────────────────────────
 export const projects: Project[] = [
   {
@@ -79,17 +82,17 @@ export const projects: Project[] = [
     featured: false,
     cardBg: "#AE423F",
   },
-  {
+ {
     id: 6,
-    title: "Calibre 22 — Rubem Fonseca",
-    category: "Design Editorial",
-    year: "2024",
-    description: "Projeto acadêmico de capa para romance policial.",
-    tags: ["Design Editorial"],
-    tools: ["Adobe Illustrator"],
-    images: [calibre22],
+    title: "Dra Tássia Maria",
+    category: "Identidade Visual",
+    year: "2026",
+    description: "Identidade visual, jaleco e papelaria para a Dra Tássia Maria.",
+    tags: ["Identidade Visual", "Ilustração"],
+    tools: ["Figma", "Adobe Illustrator", "Adobe InDesign"],
+    images: [manual1, receituario, jaleco],
     featured: false,
-    cardBg: "#f0e4e0",
+    cardBg: "#f5d7f5",
   },
   {
     id: 7,
@@ -115,17 +118,17 @@ export const projects: Project[] = [
     featured: false,
     cardBg: "#ccd4e8",
   },
-  {
+   {
     id: 9,
-    title: "Rafa Portella Quarteto",
-    category: "Identidade Visual",
-    year: "2025",
-    description: "Cartaz e story para show do Rafa Portella Quarteto.",
-    tags: ["Identidade Visual", "Divulgação"],
-    tools: ["Figma"],
-    images: [postellaPost, portellaCelular],
+    title: "Calibre 22 — Rubem Fonseca",
+    category: "Design Editorial",
+    year: "2024",
+    description: "Projeto acadêmico de capa para romance policial.",
+    tags: ["Design Editorial"],
+    tools: ["Adobe Illustrator"],
+    images: [calibre22],
     featured: false,
-    cardBg: "#A8BB5B",
+    cardBg: "#f0e4e0",
   },
   {
     id: 10,
@@ -150,5 +153,17 @@ export const projects: Project[] = [
     images: [nunoCartaz],
     featured: false,
     cardBg: "#A2414C",
+  },
+  {
+    id: 12,
+    title: "Rafa Portella Quarteto",
+    category: "Identidade Visual",
+    year: "2025",
+    description: "Cartaz e story para show do Rafa Portella Quarteto.",
+    tags: ["Identidade Visual", "Divulgação"],
+    tools: ["Figma"],
+    images: [postellaPost, portellaCelular],
+    featured: false,
+    cardBg: "#A8BB5B",
   },
 ];
