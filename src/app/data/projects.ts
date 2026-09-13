@@ -153,7 +153,7 @@ export const projects: Project[] = [
     category: "Identidade Visual",
     year: "2025",
     description: "Cartaz e story para show da banda de Jazz Fusion NUNO.",
-    tags: ["Identidade Visual", "Divulgação"],
+    tags: ["Identidade Visual", "Social Media", "Divulgação"],
     tools: ["Figma"],
     images: [nunoCartaz],
     featured: false,
