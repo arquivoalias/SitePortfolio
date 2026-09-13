@@ -7,7 +7,7 @@ export default function HeroBento() {
         position: "absolute",
         inset: 0,
         overflow: "hidden",
-    background: "transparent",      }}
+    background: "#e1e6d8"}}
     >
       <div className="hero-bento-track">
         <div className="hero-bento-copy">

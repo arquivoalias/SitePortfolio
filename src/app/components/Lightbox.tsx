@@ -148,7 +148,7 @@ closeBtnRef.current?.focus();
 }}
     >
               <div
-        className="relative w-full max-w-[90vw] flex flex-col items-center"
+        className="relative max-w-[90vw] flex flex-col items-center"
         onClick={(e) => e.stopPropagation()}
         style={{
           animation: "fadeIn .3s ease",

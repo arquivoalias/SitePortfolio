@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import MagneticButton from "./MagneticButton";
-import FotoDePerfilHeader from "@/imports/FotoDePerfil-8";
+import FotoDePerfilHeader from "@/imports/newportrait.png";
+import FotoDePerfilHeaderBranco from "@/imports/portrait_branco.png";
 
 type HeaderProps = {
   menuOpen: boolean;
@@ -99,9 +100,48 @@ useEffect(() => {
 >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-20">
           <button onClick={() => scrollTo("home")} className="flex items-center gap-4 group">
-            <div style={{ width: 52, height: 52, flexShrink: 0 }} aria-label="Valentina Real — logo">
-              <FotoDePerfilHeader />
-            </div>
+            <div
+  style={{
+    width: 52,
+    height: 52,
+    flexShrink: 0,
+    position: "relative",
+  }}
+  aria-label="Valentina Real — logo"
+>
+  {/* Imagem normal */}
+  <img
+    src={FotoDePerfilHeader}
+    alt="Valentina Real"
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      display: "block",
+      opacity: isMobile || scrolled ? 0 : 1,
+      transition: "opacity .45s ease",
+    }}
+  />
+
+  {/* Imagem branca */}
+  <img
+    src={FotoDePerfilHeaderBranco}
+    alt=""
+    aria-hidden="true"
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      display: "block",
+      opacity: isMobile || scrolled ? 1 : 0,
+      transition: "opacity .45s ease",
+    }}
+  />
+</div>
             <span
               className="transition-colors"
               style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 200, fontSize: "clamp(1rem, 3.8vw, 1.3rem)", letterSpacing: "-0.01em", color: isMobile || scrolled

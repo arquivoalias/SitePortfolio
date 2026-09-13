@@ -312,7 +312,7 @@ useEffect(() => {
 onMouseLeave={() => {
   setStarOffset({ x: 0, y: 0 });
 }}
-            style={{ background: "#c4ccb5",
+            style={{ background: "#D6DDC8",
 transition: "background .45s ease",
              borderRadius: 0,
               border: "1px solid rgba(58,89,66,.14)",

@@ -180,8 +180,7 @@ transition:
   "opacity .9s ease .95s, transform .9s ease .95s",
   }}
 >
-            Sou uma designer carioca, moradora de Botafogo e há 21 anos sou
-            obcecada por arte, cultura e design.{" "}
+            Sou uma designer carioca, estudante da UFRJ e há 21 anos sou obcecada por arte, cultura e design.{" "}
             <span
     style={{
       display: "block",

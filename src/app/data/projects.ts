@@ -8,30 +8,34 @@ import portellaCelular from "@/imports/portella_celular.png";
 import postellaPost from "@/imports/post_instagram.png";
 import trioProfile from "@/imports/Profile.png";
 import taroCards from "@/imports/tar_.png";
+import taro2 from "@/imports/taro2.png";
 import trioPerfil from "@/imports/trio_perfil.png";
 import colecaoFantastica from "@/imports/Cole__o_Fant_stica.png";
 import manualAstrologo from "@/imports/mock.png";
 import calibre22 from "@/imports/mock_dferente.png";
 import mfCelular from "@/imports/mf_celular.png";
 import mfLogo from "@/imports/mf_logo.png";
-import nunoCartaz from "@/imports/nuno.png";
+import nunoCartaz from "@/imports/nunoportfolio.png";
 import manualAstrologo2 from "@/imports/mock2.png";
 import trioIndecenteVideo from "@/imports/trintasegundoshoje.mp4";
 import manual1 from "@/imports/manual1.png";
 import receituario from "@/imports/receituario.png"; 
 import jaleco from "@/imports/jalecomockup.png";
+import isa1 from "@/imports/isamockup1.png";
+import isa2 from "@/imports/isamockup2.png";
+import isa3 from "@/imports/isamockup3.png";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 export const projects: Project[] = [
   {
     id: 1,
-    title: "Coleção Fantástica",
+    title: "Manual de Identificação de Foraminíferos",
     category: "Design Editorial",
-    year: "2025",
-    description: "Projeto acadêmico de capas para coleção de literatura fantástica realista.",
-    tags: ["Design Editorial", "Ilustração"],
-    tools: ["Adobe Illustrator", "Adobe InDesign"],
-    images: [colecaoFantastica],
+    year: "2026",
+    description: "Identidade visual e diagramação de manual acadêmico de biologia.",
+    tags: ["Design Editorial", "Identidade Visual"],
+    tools: ["Adobe InDesign", "Adobe Photoshop"],
+    images: [isa1, isa2, isa3],
     featured: true,
     cardBg: "#e8ddd0",
   },
@@ -49,39 +53,39 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    title: "Baralho de Tarô",
-    category: "Identidade Visual",
-    year: "2025",
-    description: "Projeto acadêmico de ilustração para baralho de tarô.",
-    tags: ["Identidade Visual", "Ilustração"],
-    tools: ["Adobe Photoshop", "Adobe InDesign"],
-    images: [taroCards],
-    featured: false,
-    cardBg: "#BDBDDB",
-  },
-  {
-    id: 4,
-    title: "Helvetica — A Fonte da Discórdia",
-    category: "Design Editorial",
-    year: "2024",
-    description: "Projeto acadêmico de diagramação de spreads de artigo.",
-    tags: ["Design Editorial"],
-    tools: ["Adobe InDesign"],
-    images: [mockupHelvetica],
-    featured: false,
-    cardBg: "#1e1a16",
-  },
-  {
-    id: 5,
     title: "Trio Indecente",
     category: "Identidade Visual",
     year: "2025",
     description: "Identidade visual e conteúdo para o Trio Indecente.",
     tags: ["Identidade Visual", "Ilustração", "Divulgação"],
     tools: ["Adobe Illustrator", "Figma", "Adobe Premiere"],
-    images: [trioPerfil, trioProfile, trioIndecenteVideo],
+    images: [trioIndecenteVideo, trioPerfil, trioProfile],
     featured: false,
-    cardBg: "#AE423F",
+    cardBg: "#E8D094",
+  },
+  {
+    id: 4,
+    title: "Coleção Fantástica",
+    category: "Design Editorial",
+    year: "2025",
+    description: "Projeto acadêmico de coleção de fantasia realista.",
+    tags: ["Design Editorial", "Ilustração"],
+    tools: ["Adobe Illustrator", "Adobe InDesign"],
+    images: [colecaoFantastica],
+    featured: false,
+    cardBg: "#e8ddd0",
+  },
+  {
+    id: 5,
+    title: "Baralho de Tarô",
+    category: "Identidade Visual",
+    year: "2025",
+    description: "Projeto acadêmico de ilustração para baralho de tarô.",
+    tags: ["Identidade Visual", "Ilustração"],
+    tools: ["Adobe Photoshop", "Adobe InDesign"],
+    images: [taroCards, taro2],
+    featured: false,
+    cardBg: "#BDBDDB",
   },
  {
     id: 6,
@@ -107,17 +111,17 @@ export const projects: Project[] = [
     featured: false,
     cardBg: "#3a3a3a",
   },
-  {
+    {
     id: 8,
-    title: "Manual do Astrólogo",
+    title: "Helvetica — A Fonte da Discórdia",
     category: "Design Editorial",
     year: "2024",
-    description: "Projeto acadêmico de livro de astrologia.",
+    description: "Projeto acadêmico de diagramação de spreads de artigo.",
     tags: ["Design Editorial"],
-    tools: ["Adobe Illustrator", "Adobe InDesign"],
-    images: [manualAstrologo, manualAstrologo2],
+    tools: ["Adobe InDesign"],
+    images: [mockupHelvetica],
     featured: false,
-    cardBg: "#ccd4e8",
+    cardBg: "#1e1a16",
   },
    {
     id: 9,
@@ -167,4 +171,16 @@ export const projects: Project[] = [
     featured: false,
     cardBg: "#A8BB5B",
   },
+  {
+    id: 13,
+    title: "Manual do Astrólogo",
+    category: "Design Editorial",
+    year: "2024",
+    description: "Projeto acadêmico de livro de astrologia.",
+    tags: ["Design Editorial"],
+    tools: ["Adobe Illustrator", "Adobe InDesign"],
+    images: [manualAstrologo, manualAstrologo2],
+    featured: false,
+    cardBg: "#ccd4e8",
+  }
 ];

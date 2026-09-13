@@ -279,7 +279,7 @@ function Button14() {
 function Container1() {
   return (
     <div className="relative shrink-0 w-[1407px]" data-name="Container">
-      <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex gap-[40px] items-center px-[40px] relative size-full">
+      <div className="background: #D6DDC8; border-0 border-[transparent] border-solid content-stretch flex gap-[40px] items-center px-[40px] relative size-full">
         <Button />
         <Button1 />
         <Button2 />

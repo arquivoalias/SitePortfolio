@@ -104,8 +104,8 @@ group
 cursor-pointer
 transition-transform
 duration-700
-ease-[cubic-bezier(.22,1,.36,1)]
-hover:-translate-y-2
+ease-out
+hover:-translate-y-0.5
 "
   style={{
     opacity: visible ? 1 : 0,

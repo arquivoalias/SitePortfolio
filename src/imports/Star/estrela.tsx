@@ -6,7 +6,7 @@ type EstrelaProps = React.SVGProps<SVGSVGElement> & {
 };
 
 const Estrela = ({
-  fillColor = "#C4CCB5",
+  fillColor = "#e1e6d8",
   strokeColor = "#3A5942",
   ...props
 }: EstrelaProps) => {

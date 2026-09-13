@@ -17,7 +17,11 @@ export default function About({
   setCvOpen,
 }: AboutProps) {
   return (
- <section id="sobre" className="bg-card border-y border-border py-24 md:py-32">
+ <section
+  id="sobre"
+  className="border-y border-border py-24 md:py-32"
+  style={{ background: "#D6DDC8" }}
+>
         <div className="px-6 md:px-12 max-w-7xl mx-auto">
 
           {/* Top: text + photo */}
