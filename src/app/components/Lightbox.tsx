@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type React from "react";
-import { X } from "lucide-react";
+import { X, Copy } from "lucide-react";
 import type { Project } from "../types/Project";
 
 type Props = {
@@ -24,7 +24,20 @@ export default function Lightbox({
   setLightbox,
 }: Props) {
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+const [copied, setCopied] = useState(false);
+const handleCopyLink = async () => {
+  try {
+    await navigator.clipboard.writeText(window.location.href);
 
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  } catch {
+    console.error("Não foi possível copiar o link.");
+  }
+};
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -226,7 +239,7 @@ export default function Lightbox({
             ))}
           </div>
 
-          {/* Ferramentas */}
+                    {/* Ferramentas */}
           <div className="flex gap-2 flex-wrap">
             {lightbox.project.tools.map((tool) => (
               <span
@@ -244,6 +257,26 @@ export default function Lightbox({
               </span>
             ))}
           </div>
+
+          {/* Copiar link */}
+          <button
+            type="button"
+            onClick={handleCopyLink}
+            className="inline-flex items-center gap-2 mt-6 px-4 py-2 transition-all duration-200"
+            style={{
+              fontFamily: "'Inconsolata', monospace",
+              fontSize: "0.75rem",
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
+              color: "#fff",
+              background: "rgba(255,255,255,.10)",
+              border: "1px solid rgba(255,255,255,.25)",
+            }}
+          >
+            <Copy size={14} strokeWidth={1.8} />
+            {copied ? "Link copiado!" : "Copiar link do projeto"}
+          </button>
+
         </div>
       </div>
     </div>

@@ -223,24 +223,62 @@ const openProject = (
           </div>
         )}
 
-        {hasMore && (
-          <div className="text-center mt-12">
-            <MagneticButton>
-              <button
-                onClick={() => setShowAll(true)}
-                className="px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-accent-foreground transition-all duration-200"
-                style={{
-                  fontFamily: "'Inconsolata', monospace",
-                  fontSize: "0.75rem",
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                }}
-              >
-                Mostrar mais projetos
-              </button>
-            </MagneticButton>
-          </div>
-        )}
+        {activeTag === null && filtered.length > 5 && (
+  <div className="text-center mt-12">
+    <MagneticButton>
+      <button
+        onClick={() => {
+  if (showAll) {
+    setShowAll(false);
+
+    setTimeout(() => {
+  const section = document.getElementById("projetos");
+
+  if (!section) return;
+
+  const start = window.scrollY;
+  const target = section.getBoundingClientRect().top + window.scrollY - 60;
+  const distance = target - start;
+  const duration = 900;
+  const startTime = performance.now();
+
+  const animateScroll = (currentTime: number) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Movimento suave: começa e termina devagar
+    const ease = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    window.scrollTo(0, start + distance * ease);
+
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
+  };
+
+  requestAnimationFrame(animateScroll);
+}, 50);
+  } else {
+    setShowAll(true);
+  }
+}}
+        className="px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-accent-foreground transition-all duration-200"
+        style={{
+          fontFamily: "'Inconsolata', monospace",
+          fontSize: "0.75rem",
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+        }}
+      >
+        {showAll
+          ? "Mostrar menos projetos"
+          : "Mostrar mais projetos"}
+      </button>
+    </MagneticButton>
+  </div>
+)}
               </section>
 
 {lightbox && (
