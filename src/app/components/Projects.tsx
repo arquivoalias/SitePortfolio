@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { projects } from "../data/projects";
 
@@ -8,15 +8,67 @@ import FilterTag from "./FilterTag";
 import ProjectCard from "./ProjectCard";
 import Lightbox from "./Lightbox";
 
+function createProjectSlug(title: string) {
+  return title
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function Projects() {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
 
-  const [lightbox, setLightbox] = useState<{
-    images: string[];
-    idx: number;
-    project: (typeof projects)[0];
-  } | null>(null);
+const [lightbox, setLightbox] = useState<{
+  images: string[];
+  idx: number;
+  project: (typeof projects)[0];
+} | null>(null);
+useEffect(() => {
+  const projectPath = window.location.pathname
+    .replace(/^\/+|\/+$/g, "");
+
+  if (!projectPath.startsWith("projetos/")) {
+    return;
+  }
+
+  const slug = projectPath.replace("projetos/", "");
+
+  const project = projects.find(
+    (p) => createProjectSlug(p.title) === slug
+  );
+
+  if (!project) {
+    return;
+  }
+
+  setLightbox({
+    images: project.images,
+    idx: 0,
+    project,
+  });
+}, []);
+const openProject = (
+  images: string[],
+  idx: number,
+  project: (typeof projects)[0]
+) => {
+  const slug = createProjectSlug(project.title);
+
+  window.history.pushState(
+    {},
+    "",
+    `/projetos/${slug}`
+  );
+
+  setLightbox({
+    images,
+    idx,
+    project,
+  });
+};
 
   const allCategoryTags = Array.from(
     new Set(projects.flatMap((p) => p.tags))
@@ -123,12 +175,8 @@ export default function Projects() {
                     project={p}
                     large={true}
                     onImageClick={(images, idx, project) =>
-                      setLightbox({
-                        images,
-                        idx,
-                        project,
-                      })
-                    }
+  openProject(images, idx, project)
+}
                   />
                 ))}
             </div>
@@ -142,12 +190,8 @@ export default function Projects() {
                     project={p}
                     large={false}
                     onImageClick={(images, idx, project) =>
-                      setLightbox({
-                        images,
-                        idx,
-                        project,
-                      })
-                    }
+  openProject(images, idx, project)
+}
                   />
                 ))}
             </div>
@@ -161,12 +205,8 @@ export default function Projects() {
                   project={p}
                   large={false}
                   onImageClick={(images, idx, project) =>
-                    setLightbox({
-                      images,
-                      idx,
-                      project,
-                    })
-                  }
+  openProject(images, idx, project)
+}
                 />
               ))
             ) : (
@@ -206,7 +246,14 @@ export default function Projects() {
 {lightbox && (
   <Lightbox
     lightbox={lightbox}
-    setLightbox={setLightbox}
+    setLightbox={(value) => {
+      if (value === null) {
+        window.history.pushState({}, "", "/");
+        setLightbox(null);
+      } else {
+        setLightbox(value);
+      }
+    }}
   />
 )}
     </>

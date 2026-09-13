@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type React from "react";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { X } from "lucide-react";
 import type { Project } from "../types/Project";
 
 type Props = {
@@ -23,132 +23,54 @@ export default function Lightbox({
   lightbox,
   setLightbox,
 }: Props) {
-  const hasPrev = lightbox.idx > 0;
-  const hasNext = lightbox.idx < lightbox.images.length - 1;
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-const [touchEnd, setTouchEnd] = useState<number | null>(null);
-const [dragX, setDragX] = useState(0);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
 
-const minSwipeDistance = 50;
-  const currentFile = lightbox.images[lightbox.idx];
-
-const isVideo =
-  currentFile.toLowerCase().endsWith(".mp4") ||
-  currentFile.toLowerCase().endsWith(".webm") ||
-  currentFile.toLowerCase().endsWith(".mov");
-
- const prevImage = (e?: React.MouseEvent) => {
-  e?.stopPropagation();
-
-  if (!hasPrev) return;
-
-  setLightbox((lb) =>
-    lb && {
-      ...lb,
-      idx: lb.idx - 1,
-    }
-  );
-};
-
-const nextImage = (e?: React.MouseEvent) => {
-  e?.stopPropagation();
-
-  if (!hasNext) return;
-
-  setLightbox((lb) =>
-    lb && {
-      ...lb,
-      idx: lb.idx + 1,
-    }
-  );
-};
-const onTouchStart = (e: React.TouchEvent) => {
-  setTouchEnd(null);
-  setTouchStart(e.targetTouches[0].clientX);
-};
-
-const onTouchMove = (e: React.TouchEvent) => {
-  const current = e.targetTouches[0].clientX;
-
-  setTouchEnd(current);
-
-  if (touchStart !== null) {
-    setDragX(current - touchStart);
-  }
-};
-
-const onTouchEnd = () => {
-  if (touchStart === null || touchEnd === null) return;
-
-  const distance = touchStart - touchEnd;
-
-  if (distance > minSwipeDistance && hasNext) {
-    nextImage();
-  } else if (distance < -minSwipeDistance && hasPrev) {
-    prevImage();
-  }
-
-  setDragX(0);
-
-  setTouchStart(null);
-  setTouchEnd(null);
-};
-const closeBtnRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setLightbox(null);
       }
-
-      if (e.key === "ArrowLeft") {
-        setLightbox((lb) => {
-          if (!lb || lb.idx === 0) return lb;
-
-          return {
-            ...lb,
-            idx: lb.idx - 1,
-          };
-        });
-      }
-
-      if (e.key === "ArrowRight") {
-        setLightbox((lb) => {
-          if (!lb || lb.idx >= lb.images.length - 1) return lb;
-
-          return {
-            ...lb,
-            idx: lb.idx + 1,
-          };
-        });
-      }
     };
 
     window.addEventListener("keydown", handleKey);
+
     document.body.style.overflow = "hidden";
-closeBtnRef.current?.focus();
+
+    closeBtnRef.current?.focus();
+
     return () => {
       window.removeEventListener("keydown", handleKey);
       document.body.style.overflow = "";
     };
   }, [setLightbox]);
 
+  /*
+   * Mesma proporção utilizada nos cards da seção de Projetos:
+   *
+   * featured → 16:10
+   * normal   → 4:3
+   */
+  const aspectRatio = lightbox.project.featured
+    ? "16 / 10"
+    : "4 / 3";
+
   return (
     <div
-  role="dialog"
-  aria-modal="true"
-  aria-label={lightbox.project.title}
-  className="fixed inset-0 z-[999] flex justify-center overflow-y-auto overflow-x-hidden"
-  onClick={() => setLightbox(null)}
+      role="dialog"
+      aria-modal="true"
+      aria-label={lightbox.project.title}
+      className="fixed inset-0 z-[999] flex justify-center overflow-y-auto overflow-x-hidden"
+      onClick={() => setLightbox(null)}
       style={{
-  padding: "32px 24px",
-  background: "rgba(20,20,20,.55)",
-  backdropFilter: "blur(22px)",
-  WebkitBackdropFilter: "blur(22px)",
-  animation: "fadeIn .25s ease",
-}}
+        padding: "32px 24px",
+        background: "rgba(20,20,20,.55)",
+        backdropFilter: "blur(22px)",
+        WebkitBackdropFilter: "blur(22px)",
+        animation: "fadeIn .25s ease",
+      }}
     >
-              <div
-        className="relative max-w-[90vw] flex flex-col items-center"
+      <div
+        className="relative w-full max-w-5xl flex flex-col items-center"
         onClick={(e) => e.stopPropagation()}
         style={{
           animation: "fadeIn .3s ease",
@@ -159,151 +81,102 @@ closeBtnRef.current?.focus();
           ref={closeBtnRef}
           onClick={() => setLightbox(null)}
           className="
-absolute
-top-0
-right-0
-flex
-items-center
-justify-center
-rounded-none
-transition-all
-duration-200
-hover:scale-110
-z-20
-"
+            absolute
+            top-0
+            right-0
+            flex
+            items-center
+            justify-center
+            rounded-none
+            transition-all
+            duration-200
+            hover:scale-110
+            z-30
+          "
           style={{
-            width: 48,
-            height: 48,
+            width: 34,
+            height: 34,
             background: "rgba(255,255,255,.08)",
             border: "1px solid rgba(255,255,255,.18)",
             color: "#fff",
           }}
           aria-label="Fechar"
         >
-          <X size={20} strokeWidth={2} />
+          <X size={16} strokeWidth={2} />
         </button>
-       
 
-        {/* Navegação esquerda */}
-        {hasPrev && (
-          <button
-            onClick={prevImage}
-            className="hidden lg:flex absolute left-0 top-[40%] -translate-y-1/2 rounded-none transition-all duration-200 hover:scale-110"
-            style={{
-  width: 48,
-  height: 48,
-  alignItems: "center",
-  justifyContent: "center",
-  padding: 0,
-  background: "rgba(255,255,255,.04)",
-  border: "1px solid rgba(255,255,255,.25)",
-}}
-            aria-label="Imagem anterior"
-          >
-            <ArrowLeft size={20} strokeWidth={1.8} color="#fff"/>
-          </button>
-        )}
+        {/* Imagens do projeto */}
+        <div
+          className="w-full flex flex-col"
+          style={{
+            gap: "10px",
+            paddingTop: "52px",
+          }}
+        >
+          {lightbox.images.map((file, index) => {
+            const isVideo =
+              file.toLowerCase().endsWith(".mp4") ||
+              file.toLowerCase().endsWith(".webm") ||
+              file.toLowerCase().endsWith(".mov");
 
-        {/* Navegação direita */}
-        {hasNext && (
-          <button
-            onClick={nextImage}
-            className="hidden lg:flex absolute right-0 top-[40%] -translate-y-1/2 rounded-none transition-all duration-200 hover:scale-110"
-            style={{
-  width: 48,
-  height: 48,
-  alignItems: "center",
-  justifyContent: "center",
-  padding: 0,
-  background: "rgba(255,255,255,.04)",
-  border: "1px solid rgba(255,255,255,.25)",
-}}
-            aria-label="Próxima imagem"
-          >
-            <ArrowRight size={20} strokeWidth={1.8} color="#fff"/>
-          </button>
-        )}
-<div
-  style={{
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: "64px",
-  }}
->
-        {/* Imagem */}
-        {isVideo ? (
-  <video
-  onTouchStart={onTouchStart}
-onTouchMove={onTouchMove}
-onTouchEnd={onTouchEnd}
-  key={lightbox.idx}
-  src={currentFile}
-  controls
-  autoPlay
-  muted
-  loop
-  playsInline
-  style={{
-    maxWidth: "100%",
-    maxHeight: "calc(100vh - 180px)",
-    width: "auto",
-    height: "auto",
-    boxShadow: "0 28px 80px rgba(0,0,0,.35)",
-    transform: `translateX(${dragX}px)`,
-transition: touchStart
-  ? "none"
-  : "transform .25s ease",
-  }}
-/>
-) : (
-  <img
-    key={lightbox.idx}
-    src={currentFile}
-    alt={lightbox.project.title}
-    onTouchStart={onTouchStart}
-onTouchMove={onTouchMove}
-onTouchEnd={onTouchEnd}
-    className="object-contain rounded-sm"
-    style={{
-      maxWidth: "100%",
-      maxHeight: "calc(100vh - 180px)",
-      width: "auto",
-      height: "auto",
-      boxShadow: "0 28px 80px rgba(0,0,0,.35)",
-      transform: `translateX(${dragX}px)`,
-transition: touchStart
-  ? "none"
-  : "transform .25s ease",
-    }}
-  />
-)}
-</div>
-        {/* Contador */}
-        {lightbox.images.length > 1 && (
-          <p
-            className="mt-2"
-            style={{
-              color: "rgba(255,255,255,.75)",
-              fontFamily: "'Inconsolata', monospace",
-              fontSize: ".78rem",
-              letterSpacing: ".08em",
-
-            }}
-          >
-            {lightbox.idx + 1} / {lightbox.images.length}
-          </p>
-        )}
+            return (
+              <div
+                key={`${file}-${index}`}
+                style={{
+                  width: "100%",
+                  aspectRatio,
+                  background:
+                    lightbox.project.cardBg ?? "var(--secondary)",
+                  overflow: "hidden",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {isVideo ? (
+                  <video
+                    src={file}
+                    controls
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={file}
+                    alt={`${lightbox.project.title} — imagem ${index + 1}`}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
 
         {/* Painel de informações */}
-<div
-  className="w-full max-w-3xl mt-6"
+        <div
+  className="w-full max-w-5xl"
   style={{
     color: "#fff",
+    marginTop: "48px",
+    paddingBottom: "80px",
   }}
 >
-
           <h2
             style={{
               fontFamily: "'Outfit', sans-serif",
@@ -331,22 +204,21 @@ transition: touchStart
 
           {/* Tags */}
           <div
-            className="flex flex-wrap gap-2"
-            style={{ marginBottom: 12 }}
+            className="flex gap-2 flex-wrap"
+            style={{
+              marginBottom: 10,
+            }}
           >
             {lightbox.project.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-0.5"
                 style={{
                   fontFamily: "'Inconsolata', monospace",
-                  fontSize: ".72rem",
-                  letterSpacing: ".04em",
-                  borderRadius: 0,
-                  padding: "7px 14px",
-                  background: "rgba(184,77,106,.18)",
-                  color: "#ff8faa",
-                  border: "1px solid rgba(184,77,106,.35)",
+                  fontSize: ".65rem",
+                  letterSpacing: ".02em",
+                  color: "#ffc3d3",
+                  background: "rgba(184,77,106,.12)",
+                  padding: "6px 10px",
                 }}
               >
                 {tag}
@@ -355,20 +227,17 @@ transition: touchStart
           </div>
 
           {/* Ferramentas */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 flex-wrap">
             {lightbox.project.tools.map((tool) => (
               <span
                 key={tool}
-                className="px-3 py-0.5"
                 style={{
                   fontFamily: "'Inconsolata', monospace",
-                  fontSize: ".72rem",
-                  letterSpacing: ".04em",
-                  borderRadius: 0,
-                  padding: "7px 14px",
-                  background: "rgba(58, 89, 66, .18)",
-                  color: "#B7C1AD",
-                  border: "1px solid rgba(58, 89, 66, .35)",
+                  fontSize: ".65rem",
+                  letterSpacing: ".02em",
+                  color: "#b7f5b9",
+                  background: "rgba(58,89,66,.12)",
+                  padding: "6px 10px",
                 }}
               >
                 {tool}

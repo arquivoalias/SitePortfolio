@@ -39,7 +39,7 @@ export default function About({
                 <strong style={{ fontWeight: 600, color: "var(--accent)" }}>Valentina</strong>
                 {", sou carioca da gema, moradora de Botafogo e há 21 anos sou obcecada por "}
                 <strong style={{ fontWeight: 600, color: "var(--accent)" }}>arte, cultura e o lugar do design no meio de tudo.</strong>
-                {" Estou no 6º período de "}
+                {" Estou no 7º período de "}
                 <strong style={{ fontWeight: 600, color: "var(--accent)" }}>Comunicação Visual Design</strong>
                 {" na Escola de Belas Artes da "}
                 <strong style={{ fontWeight: 600, color: "var(--accent)" }}>UFRJ</strong>

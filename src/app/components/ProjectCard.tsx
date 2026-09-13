@@ -3,6 +3,15 @@ import { ArrowUpRight } from "lucide-react";
 import type React from "react";
 import type { Project } from "../types/Project";
 
+function createProjectSlug(title: string) {
+  return title
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 type Props = {
   project: Project;
   large: boolean;
@@ -128,6 +137,15 @@ hover:-translate-y-0.5
     touchMoved.current = false;
     return;
   }
+
+  const slug = createProjectSlug(project.title);
+
+  window.history.pushState(
+    {},
+    "",
+    `/projetos/${slug}`
+  );
+
   onImageClick(images, imgIdx, project);
 }}
         onTouchStart={onTouchStart}

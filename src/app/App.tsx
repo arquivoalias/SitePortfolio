@@ -16,6 +16,7 @@ import About from "./components/About";
 import Projects from "./components/Projects";
 import { Document, Page, pdfjs } from "react-pdf";
 import Ticker from "./components/Ticker";
+import { projects } from "./data/projects";
 
 pdfjs.GlobalWorkerOptions.workerSrc =
   `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -25,6 +26,7 @@ pdfjs.GlobalWorkerOptions.workerSrc =
 
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
+  
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
