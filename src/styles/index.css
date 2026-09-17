@@ -1,3 +1,70 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme.css';
+@media (max-width: 1023px) {
+  .hero-text {
+    transform: translateY(-4vh);
+  }
+}
+@media (max-width: 767px) {
+  .about-star-top-large {
+    top: -24px !important;
+    left: -18px !important;
+  }
+
+  .about-star-top-small {
+    top: 70px !important;
+    left: -10px !important;
+  }
+
+  .about-star-bottom-large {
+    bottom: -18px !important;
+    right: -12px !important;
+  }
+
+  .about-star-bottom-small {
+    bottom: -24px !important;
+    right: 45px !important;
+  }
+}
+/* ── Hover effects: only devices with real hover ── */
+@media (hover: hover) and (pointer: fine) {
+  .contact-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-color: rgba(58, 89, 66, 0.3);
+    background: #c9d1bb !important;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero-projects-cta:hover {
+    transform: translateY(3px) !important;
+  }
+
+  .hero-projects-cta:hover span:first-child {
+    border-bottom: 1px solid #b84d6a !important;
+  }
+
+  .hero-projects-cta:hover span:last-child {
+    transform: translateY(4px);
+  }
+}
+.project-mobile-arrow {
+  display: none;
+}
+@media (hover: none), (max-width: 767px) {
+  .project-mobile-arrow {
+    display: inline-block;
+    flex-shrink: 0;
+    opacity: 0.65;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about-cv-button:hover {
+    background: #3A5942 !important;
+    color: #E8EEE0 !important;
+    border-color: #3A5942 !important;
+  }
+}

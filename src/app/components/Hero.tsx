@@ -1,13 +1,15 @@
 import HeroBento from "./HeroBento";
 import { useEffect, useState, useRef, memo } from "react";
 import TypewriterText from "./TypewriterText";
+import nome from "@/imports/nome.png";
 
 const MemoHeroBento = memo(HeroBento);
 
 export default function Hero() {
   const [visible, setVisible] = useState(false);
   const [startTyping, setStartTyping] = useState(false);
-
+  
+const [canHover, setCanHover] = useState(false);
   const bentoRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const rafId = useRef<number | undefined>(undefined);
@@ -25,10 +27,28 @@ useEffect(() => {
 
   return () => clearTimeout(t);
 }, []);
-
 useEffect(() => {
+  const mediaQuery = window.matchMedia(
+    "(hover: hover) and (pointer: fine)"
+  );
+
+  const updateHoverCapability = () => {
+    setCanHover(mediaQuery.matches);
+  };
+
+  updateHoverCapability();
+
+  mediaQuery.addEventListener("change", updateHoverCapability);
+
+  return () => {
+    mediaQuery.removeEventListener("change", updateHoverCapability);
+  };
+}, []);
+useEffect(() => {
+  if (!canHover) return;
+
   const handleMove = (e: MouseEvent) => {
-    if (rafId.current) return; // já tem um frame agendado, ignora
+    if (rafId.current) return;
 
     rafId.current = requestAnimationFrame(() => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
@@ -37,6 +57,7 @@ useEffect(() => {
       if (bentoRef.current) {
         bentoRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       }
+
       if (textRef.current) {
         textRef.current.style.transform = `translate3d(${-x * 0.18}px, ${-y * 0.18}px, 0)`;
       }
@@ -49,16 +70,34 @@ useEffect(() => {
 
   return () => {
     window.removeEventListener("mousemove", handleMove);
-    if (rafId.current) cancelAnimationFrame(rafId.current);
-  };
-}, []);
 
+    if (rafId.current) {
+      cancelAnimationFrame(rafId.current);
+      rafId.current = undefined;
+    }
+  };
+}, [canHover]);
+const scrollToProjects = () => {
+  const section = document.getElementById("projetos");
+
+  if (!section) return;
+
+  const target =
+    section.getBoundingClientRect().top +
+    window.scrollY -
+    60;
+
+  window.scrollTo({
+    top: target,
+    behavior: "smooth",
+  });
+};
   return (
     <section
       id="home"
       style={{
         height: "100vh",
-        paddingTop: 80,
+        paddingTop: 64,
         display: "flex",
         flexDirection: "column",
         
@@ -93,10 +132,11 @@ useEffect(() => {
         {/* Texto */}
         <div
   ref={textRef}
-  className="flex flex-col items-end text-right justify-center flex-1"
+  className="flex flex-col items-end text-right justify-center flex-1 hero-text"
   style={{
-    gap: "0.5rem",
+    gap: "0.2rem",
     willChange: "transform",
+    transform: "translateY(-4vh)",
   }}
 >
           <p
@@ -106,6 +146,7 @@ useEffect(() => {
               fontWeight: 400,
               fontSize: "clamp(.95rem,1.5vw,1.15rem)",
               letterSpacing: ".12em",
+              marginBottom: "1.2rem",
               textTransform: "uppercase",
               opacity: visible ? 1 : 0,
     transform: visible
@@ -115,42 +156,43 @@ useEffect(() => {
       "opacity .7s ease, transform .7s ease",
             }}
           >
-            Oi! Eu me chamo
+           DESIGNER GRÁFICA & ILUSTRADORA
           </p>
 
-          <h1
-            className="leading-none"
-            style={{
-              fontFamily: "'Outfit', sans-serif",
-              fontSize: "clamp(2.8rem,9vw,7.5rem)",
-              fontWeight: 560,
-              letterSpacing: "-0.08em",
-              lineHeight: 0.95,
-              color: "var(--foreground)",
-              textShadow: "0 8px 24px rgba(0,0,0,.05)",
-              opacity: visible ? 1 : 0,
-transform: visible
-  ? "translateY(0)"
-  : "translateY(30px)",
-transition:
-  "opacity .8s ease .25s, transform .8s ease .25s",
-            }}
-          >
-            <TypewriterText
-  text="Valentina Real"
-  start={startTyping}
-/>
-          </h1>
+          <div
+  style={{
+    display: "flex",
+    justifyContent: "flex-end",
+    width: "100%",
+    opacity: visible ? 1 : 0,
+    transform: visible
+      ? "translateY(0)"
+      : "translateY(30px)",
+    transition:
+      "opacity .8s ease .25s, transform .8s ease .25s",
+  }}
+>
+  <img
+    src={nome}
+    alt="Valentina Real"
+    style={{
+      width: "clamp(260px, 78vw, 650px)",
+      height: "auto",
+      display: "block",
+      objectFit: "contain",
+    }}
+  />
+</div>
 
           <p
             className="text-accent"
             style={{
-              fontFamily: "'Inconsolata', monospace",
-              fontWeight: 400,
-              fontSize: "clamp(.95rem,1.5vw,1.15rem)",
-              letterSpacing: ".12em",
-              textTransform: "uppercase",
-              opacity: visible ? 1 : 0,
+              fontFamily: "Inconsolata, monospace",
+              fontWeight: 500,
+              fontSize: "clamp(.75rem,1.3vw,0.95rem)",
+              letterSpacing: "0em",
+              marginTop: "0.7rem",
+              color: "#5e7e67",
 transform: visible
   ? "translateY(0)"
   : "translateY(24px)",
@@ -158,40 +200,54 @@ transition:
   "opacity .7s ease .6s, transform .7s ease .6s",
             }}
           >
-            e esse é o meu portfólio!
+            IDENTIDADE VISUAL · EDITORIAL · COMUNICAÇÃO DIGITAL
           </p>
-
-          <p
-  className=""
+          <button
+  type="button"
+  onClick={scrollToProjects} className="hero-projects-cta"
   style={{
-    maxWidth: "min(460px, 72vw)",
-    fontFamily: "'Outfit', sans-serif",
-    fontWeight: 400,
-    marginTop: "clamp(2px, 1.4vw, 12px)",
-    fontSize: "clamp(.88rem, 2.6vw, 1.05rem)",
-    lineHeight: 1.55,
-    color: "#5e7e67",
-    textAlign: "right",
+    marginTop: "1.4rem",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    background: "transparent",
+    border: "none",
+    padding: 0,
+    cursor: "pointer",
+    fontFamily: "'Inconsolata', monospace",
+    fontSize: "clamp(.8rem, 1.2vw, .95rem)",
+    fontWeight: 500,
+    letterSpacing: ".04em",
+    color: "#b84d6a",
     opacity: visible ? 1 : 0,
-transform: visible
-  ? "translateY(24px)"
-  : "translateY(50px)",
-transition:
-  "opacity .9s ease .95s, transform .9s ease .95s",
+    transform: visible
+  ? "translateY(0)"
+  : "translateY(24px)",
+    transition:
+      "opacity .7s ease .8s, transform .25s ease, color .25s ease",
   }}
 >
-            Sou uma designer carioca, estudante da UFRJ e há 21 anos sou obcecada por arte, cultura e design.{" "}
-            <span
+  <span
     style={{
-      display: "block",
-      marginTop: 16,
-      fontWeight: 600,
-      color: "var(--accent)",
+      borderBottom: "1px solid transparent",
+      transition: "border-color .25s ease",
     }}
   >
-    Vem conhecer alguns dos meus projetos!
+    Vem ver meus projetos
   </span>
-</p>
+
+  <span
+    aria-hidden="true"
+    style={{
+      display: "inline-block",
+      transform: "translateY(0)",
+      transition: "transform .25s ease",
+      fontSize: "1rem",
+    }}
+  >
+    ↓
+  </span>
+</button>
         </div>
       </div>
     </section>

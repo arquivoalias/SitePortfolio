@@ -16,7 +16,7 @@ import About from "./components/About";
 import Projects from "./components/Projects";
 import { Document, Page, pdfjs } from "react-pdf";
 import Ticker from "./components/Ticker";
-import { projects } from "./data/projects";
+
 
 pdfjs.GlobalWorkerOptions.workerSrc =
   `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -28,13 +28,30 @@ pdfjs.GlobalWorkerOptions.workerSrc =
 export default function App() {
   
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+
 
   const [cvOpen, setCvOpen] = useState(false);
 const [starOffset, setStarOffset] = useState({ x: 0, y: 0 });
 
 const [pdfScale, setPdfScale] = useState(0.8);
+const [canHover, setCanHover] = useState(false);
+useEffect(() => {
+  const mediaQuery = window.matchMedia(
+    "(hover: hover) and (pointer: fine)"
+  );
 
+  const updateHoverCapability = () => {
+    setCanHover(mediaQuery.matches);
+  };
+
+  updateHoverCapability();
+
+  mediaQuery.addEventListener("change", updateHoverCapability);
+
+  return () => {
+    mediaQuery.removeEventListener("change", updateHoverCapability);
+  };
+}, []);
 useEffect(() => {
   const updateScale = () => setPdfScale(window.innerWidth < 1024 ? 0.6 : 0.8);
   updateScale();
@@ -224,7 +241,17 @@ useEffect(() => {
 
       {/* ── KEYFRAMES ── */}
       <style>{`
-        * { cursor: none !important; }
+        @media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-email:hover {
+    color: #b84d6a !important;
+  }
+}
         
         @keyframes tickerScroll {
   0% {
@@ -278,7 +305,11 @@ useEffect(() => {
     
 
       {/* ── CONTACT ── */}
-      <section id="contato" style={{    scrollMarginTop: 100,  }} className="px-6 md:px-12 py-16 md:py-24">
+      <section
+  id="contato"
+  style={{ scrollMarginTop: 100 }}
+  className="px-8 sm:px-10 md:px-12 py-16 md:py-24"
+>
         <div className="max-w-3xl mx-auto">
           <div
   className="
@@ -286,20 +317,17 @@ useEffect(() => {
     relative
     overflow-hidden
     flex
-    flex-col
-    md:flex-row
-    items-start
-    gap-0
+flex-col
+sm:flex-row
+items-start
+gap-6
     transition-all
     duration-500
     ease-out
-    hover:-translate-y-[3px]
-    hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)]
-    hover:backdrop-blur-[10px]
-    hover:border-foreground/30
-    hover:bg-[#c9d1bb]
   "
-  onMouseMove={(e) => {
+ onMouseMove={(e) => {
+  if (!canHover) return;
+
   const rect = e.currentTarget.getBoundingClientRect();
 
   const x = (e.clientX - rect.left) / rect.width;
@@ -318,7 +346,7 @@ onMouseLeave={() => {
 transition: "background .45s ease",
              borderRadius: 0,
               border: "1px solid rgba(58,89,66,.14)",
-               padding: "clamp(42px,6vw,72px)" }}>
+               padding: "clamp(32px,6vw,80px)" }}>
             {/* Left — text content */}
             <div className="flex-1 min-w-0">
               <p style={{
@@ -339,48 +367,71 @@ transition: "background .45s ease",
                      color: "#3a5942",
                       lineHeight: 1.05,
                        marginBottom: 16 }}>
-                Vamos trabalhar{" "}
+                Vamos criar{" "}
                 <span style={{
                    fontWeight: 400,
                     color: "#b84d6a",
                      fontStyle: "normal" }}>juntos?</span>
               </h2>
-              <p style={{
-                 fontFamily: "'Outfit', sans-serif",
-                  fontWeight: 400,
-                   fontSize: "1rem",
-                    color: "#5e7e67",
-                     lineHeight: 1.625,
-                      marginBottom: 32 }}>
-                Estou disponível para projetos, colaborações e conversas.<br />
-                Se você tem uma ideia, fala comigo!
-              </p>
+              <p
+  style={{
+    fontFamily: "'Outfit', sans-serif",
+    fontWeight: 400,
+    fontSize: "1rem",
+    color: "#5e7e67",
+    lineHeight: 1.625,
+    marginBottom: 40,
+    textWrap: "pretty",
+  }}
+>
+  Tem uma ideia, projeto ou quer conversar sobre design?
+</p>
               <MagneticButton strength={0.2}>
-                <a
-                  href="mailto:valentinareal2005@gmail.com?subject=Oi%20Valentina%2C%20vamos%20trabalhar%20juntos%3F"
-                  className="group inline-flex items-center gap-3 transition-colors"
-                  style={{
-                     fontFamily: "'Outfit', sans-serif",
-                      fontWeight: 600,
-                       fontSize: "clamp(1rem, 2vw, 1.5rem)",
-                        letterSpacing: "-0.02em",
-                         color: "#3a5942",
-                          textDecoration: "underline",
-                           textUnderlineOffset: "4px"
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = "#b84d6a"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = "#3a5942"; }}
-                >
-                  valentinareal2005@gmail.com
-                  <ArrowUpRight size={20} strokeWidth={1.5} className="
-transition-all
-duration-300
-group-hover:translate-x-1
-group-hover:-translate-y-1
-group-hover:rotate-12
-" />
-                </a>
-              </MagneticButton>
+  <a
+    href="mailto:valentinareal2005@gmail.com?subject=Oi%20Valentina%2C%20vamos%20trabalhar%20juntos%3F"
+    className="group contact-email inline-flex flex-col items-start"
+    style={{
+      fontFamily: "'Outfit', sans-serif",
+      color: "#3a5942",
+      textDecoration: "none",
+    }}
+  >
+    <span
+      className="inline-flex items-center gap-2"
+      style={{
+        fontWeight: 400,
+        fontSize: "clamp(1.15rem, 2.2vw, 1.6rem)",
+        letterSpacing: "-0.025em",
+        lineHeight: 1.1,
+      }}
+    >
+      FALA COMIGO!
+      <ArrowUpRight
+        size={22}
+        strokeWidth={1.5}
+        className="
+          transition-all
+          duration-300
+          group-hover:translate-x-1
+          group-hover:-translate-y-1
+          group-hover:rotate-12
+        "
+      />
+    </span>
+
+    <span
+      style={{
+        marginTop: 7,
+        fontSize: "clamp(0.82rem, 1.2vw, 0.95rem)",
+        fontWeight: 400,
+        color: "#5e7e67",
+        letterSpacing: "0.01em",
+      }}
+    >
+      valentinareal2005@gmail.com
+    </span>
+  </a>
+</MagneticButton>
             </div>
             {/* Right — decorative star (hidden on very small screens) */}
             <div
@@ -396,8 +447,17 @@ group-hover:rotate-12
     group-hover:rotate-[8deg]
     group-hover:scale-105
 "
-             style={{ width: 200, height: 200, opacity: 0.7 }}>
-              <svg viewBox="0 0 355 366" fill="none" width="200" height="200">
+             style={{
+  width: "clamp(130px, 22vw, 180px)",
+  height: "clamp(130px, 22vw, 180px)",
+  opacity: 0.58,
+}}>
+              <svg
+  viewBox="0 0 355 366"
+  fill="none"
+  width="100%"
+  height="100%"
+>
                 <g clipPath="url(#contactClip)">
                   <g
   filter="url(#cf0)"

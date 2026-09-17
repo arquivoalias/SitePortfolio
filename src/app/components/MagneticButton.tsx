@@ -1,7 +1,13 @@
-import { useState, useRef, useCallback } from "react";
+import {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  type ReactNode,
+} from "react";
 
 type MagneticButtonProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   strength?: number;
 };
 
@@ -11,10 +17,31 @@ export default function MagneticButton({
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [xy, setXY] = useState({ x: 0, y: 0 });
+  const [canHover, setCanHover] = useState(false);
+
+  // Detecta se o dispositivo possui hover real + ponteiro preciso
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(
+      "(hover: hover) and (pointer: fine)"
+    );
+
+    const updateHoverCapability = () => {
+      setCanHover(mediaQuery.matches);
+    };
+
+    updateHoverCapability();
+
+    mediaQuery.addEventListener("change", updateHoverCapability);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateHoverCapability);
+    };
+  }, []);
 
   const onMove = useCallback(
     (e: React.MouseEvent) => {
-      if (!ref.current) return;
+      // Em dispositivos touch, o efeito magnético fica completamente desativado
+      if (!canHover || !ref.current) return;
 
       const r = ref.current.getBoundingClientRect();
 
@@ -23,17 +50,24 @@ export default function MagneticButton({
         y: (e.clientY - r.top - r.height / 2) * strength,
       });
     },
-    [strength]
+    [strength, canHover]
   );
+
+  const resetPosition = () => {
+    if (!canHover) return;
+    setXY({ x: 0, y: 0 });
+  };
 
   return (
     <div
       ref={ref}
       onMouseMove={onMove}
-      onMouseLeave={() => setXY({ x: 0, y: 0 })}
+      onMouseLeave={resetPosition}
       style={{
         display: "inline-flex",
-        transform: `translate(${xy.x}px, ${xy.y}px)`,
+        transform: canHover
+          ? `translate(${xy.x}px, ${xy.y}px)`
+          : "translate(0, 0)",
         transition: "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)",
       }}
     >
@@ -41,5 +75,3 @@ export default function MagneticButton({
     </div>
   );
 }
-
-export const TESTE = true;

@@ -1,29 +1,29 @@
 import { Project } from "../types/Project";
-import mockupHelvetica from "@/imports/mockup_1.png";
-import mockupInclui from "@/imports/mockup_inclui_.png";
-import obs1 from "@/imports/observatorio_behance_1.png";
-import obs2 from "@/imports/observatorio_behance_2.png";
-import obs3 from "@/imports/observatorio_behance_3.png";
-import portellaCelular from "@/imports/portella_celular.png";
-import postellaPost from "@/imports/post_instagram.png";
-import trioProfile from "@/imports/Profile.png";
-import taroCards from "@/imports/tar_.png";
-import taro2 from "@/imports/taro2.png";
-import trioPerfil from "@/imports/trio_perfil.png";
-import colecaoFantastica from "@/imports/Cole__o_Fant_stica.png";
-import manualAstrologo from "@/imports/mock.png";
-import calibre22 from "@/imports/mock_dferente.png";
-import mfCelular from "@/imports/mf_celular.png";
-import mfLogo from "@/imports/mf_logo.png";
-import nunoCartaz from "@/imports/nunoportfolio.png";
-import manualAstrologo2 from "@/imports/mock2.png";
+import mockupHelvetica from "@/imports/mockup_1_web.webp";
+import mockupInclui from "@/assets-web/mockup_inclui_.webp";
+import obs1 from "@/assets-web/observatorio_behance_1.webp";
+import obs2 from "@/assets-web/observatorio_behance_2.webp";
+import obs3 from "@/assets-web/observatorio_behance_3.webp";
+import portellaCelular from "@/assets-web/portella_celular.webp";
+import postellaPost from "@/assets-web/post_instagram.webp";
+import trioProfile from "@/assets-web/Profile.webp";
+import taroCards from "@/assets-web/tar_.webp";
+import taro2 from "@/assets-web/taro2.webp";
+import trioPerfil from "@/assets-web/trio_perfil.webp";
+import colecaoFantastica from "@/assets-web/Cole__o_Fant_stica.webp";
+import manualAstrologo from "@/assets-web/mock.webp";
+import calibre22 from "@/assets-web/mock_dferente.webp";
+import mfCelular from "@/assets-web/mf_celular.webp";
+import mfLogo from "@/assets-web/mf_logo.webp";
+import nunoCartaz from "@/assets-web/nunoportfolio.webp";
+import manualAstrologo2 from "@/assets-web/mock2.webp";
 import trioIndecenteVideo from "@/imports/trintasegundoshoje.mp4";
-import manual1 from "@/imports/manual1.png";
-import receituario from "@/imports/receituario.png"; 
-import jaleco from "@/imports/jalecomockup.png";
-import isa1 from "@/imports/isamockup1.png";
-import isa2 from "@/imports/isamockup2.png";
-import isa3 from "@/imports/isamockup3.png";
+import manual1 from "@/assets-web/manual1.webp";
+import receituario from "@/assets-web/receituario.webp";
+import jaleco from "@/assets-web/jalecomockup.webp";
+import isa1 from "@/assets-web/isamockup1.webp";
+import isa2 from "@/assets-web/isamockup2.webp";
+import isa3 from "@/assets-web/isamockup3.webp";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 export const projects: Project[] = [
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     category: "UX/UI",
     year: "2025",
     description: "Identidade visual e UX/UI para site de TCC da UNIRIO.",
-    tags: ["UX/UI", "Dados"],
+    tags: ["UX/UI"],
     tools: ["Figma"],
     images: [obs1, obs2, obs3],
     featured: true,
@@ -69,7 +69,7 @@ export const projects: Project[] = [
     category: "Design Editorial",
     year: "2025",
     description: "Projeto acadêmico de coleção de fantasia realista.",
-    tags: ["Design Editorial", "Ilustração"],
+    tags: ["Design Editorial"],
     tools: ["Adobe Illustrator", "Adobe InDesign"],
     images: [colecaoFantastica],
     featured: false,

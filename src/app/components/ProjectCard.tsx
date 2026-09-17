@@ -31,6 +31,7 @@ export default function ProjectCard({
   const [visible, setVisible] = useState(false);
 
 const ref = useRef<HTMLDivElement>(null);
+const videoRef = useRef<HTMLVideoElement>(null);
 const [changing, setChanging] = useState(false);
 const [touchStart, setTouchStart] = useState<number | null>(null);
 const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -78,6 +79,25 @@ const onTouchEnd = () => {
   setTouchStart(null);
   setTouchEnd(null);
 };
+ const { images } = project;
+  const hasMultiple = images.length > 1;
+  const currentFile = images[imgIdx];
+
+const isVideo =
+  currentFile.toLowerCase().endsWith(".mp4") ||
+  currentFile.toLowerCase().endsWith(".webm") ||
+  currentFile.toLowerCase().endsWith(".mov");
+  const openProject = () => {
+  const slug = createProjectSlug(project.title);
+
+  window.history.pushState(
+    {},
+    "",
+    `/projetos/${slug}`
+  );
+
+  onImageClick(images, imgIdx, project);
+};
 useEffect(() => {
   const observer = new IntersectionObserver(
     ([entry]) => {
@@ -95,16 +115,17 @@ useEffect(() => {
 
   return () => observer.disconnect();
 }, []);
+useEffect(() => {
+  const video = videoRef.current;
 
-  const { images } = project;
-  const hasMultiple = images.length > 1;
-  const currentFile = images[imgIdx];
+  if (!video || !isVideo) return;
 
-const isVideo =
-  currentFile.toLowerCase().endsWith(".mp4") ||
-  currentFile.toLowerCase().endsWith(".webm") ||
-  currentFile.toLowerCase().endsWith(".mov");
-
+  if (visible) {
+    video.play().catch(() => {});
+  } else {
+    video.pause();
+  }
+}, [visible, isVideo, currentFile]);
   return (
    <div
   ref={ref}
@@ -116,6 +137,14 @@ duration-700
 ease-out
 hover:-translate-y-0.5
 "
+  onClick={() => {
+    if (touchMoved.current) {
+      touchMoved.current = false;
+      return;
+    }
+
+    openProject();
+  }}
   style={{
     opacity: visible ? 1 : 0,
     transform: visible
@@ -132,34 +161,19 @@ hover:-translate-y-0.5
         style={{
           background: project.cardBg ?? "var(--secondary)",
         }}
-        onClick={() => {
-  if (touchMoved.current) {
-    touchMoved.current = false;
-    return;
-  }
-
-  const slug = createProjectSlug(project.title);
-
-  window.history.pushState(
-    {},
-    "",
-    `/projetos/${slug}`
-  );
-
-  onImageClick(images, imgIdx, project);
-}}
+        
         onTouchStart={onTouchStart}
 onTouchMove={onTouchMove}
 onTouchEnd={onTouchEnd}
       >
        {isVideo ? (
   <video
-    src={currentFile}
-    autoPlay
-    muted
-    loop
-    playsInline
-    preload="metadata"
+  ref={videoRef}
+  src={currentFile}
+  muted
+  loop
+  playsInline
+  preload="metadata"
     className={`
 absolute
 h-full
@@ -177,6 +191,8 @@ ${changing ? "opacity-0" : "opacity-100"}
   <img
     src={currentFile}
     alt={project.title}
+    loading="lazy"
+decoding="async"
     className={`
 absolute
 h-full
@@ -306,16 +322,27 @@ h-12
 
       <div className="pt-4">
         <h3
-          className="text-foreground tracking-tight mb-1 transition-colors duration-500 group-hover:text-accent"
-          style={{
-            fontFamily: "'Outfit', sans-serif",
-            fontSize: large ? "1.3rem" : "1.05rem",
-            fontWeight: 600,
-            letterSpacing: "-0.025em",
-          }}
-        >
-          {project.title}
-        </h3>
+  className="text-foreground tracking-tight mb-1 transition-colors duration-500 group-hover:text-accent"
+  style={{
+    fontFamily: "'Outfit', sans-serif",
+    fontSize: large ? "1.3rem" : "1.05rem",
+    fontWeight: 600,
+    letterSpacing: "-0.025em",
+    lineHeight: 1.25,
+  }}
+>
+  {project.title}{" "}
+
+  <ArrowUpRight
+    className="project-mobile-arrow"
+    size={17}
+    strokeWidth={1.6}
+    style={{
+      verticalAlign: "middle",
+      marginBottom: "2px",
+    }}
+  />
+</h3>
 
         <p
           className="text-muted-foreground leading-relaxed"

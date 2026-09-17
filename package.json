@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "otimizar-imagens": "node scripts/otimizar-imagens.mjs",
+    "otimizar-bento": "node scripts/otimizar-bento.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -61,6 +63,7 @@
     "react-router": "7.13.0",
     "react-slick": "0.31.0",
     "recharts": "2.15.2",
+    "sharp": "^0.35.4",
     "sonner": "2.0.3",
     "tailwind-merge": "3.2.0",
     "tw-animate-css": "1.3.8",

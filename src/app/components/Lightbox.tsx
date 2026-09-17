@@ -18,7 +18,41 @@ type Props = {
     } | null>
   >;
 };
+function LazyVideo({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
 
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {}); // navegador pode bloquear autoplay; ignora o erro
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      src={src}
+      controls
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      style={{ display: "block", width: "100%", height: "100%", objectFit: "contain" }}
+    />
+  );
+}
 export default function Lightbox({
   lightbox,
   setLightbox,
@@ -147,22 +181,8 @@ const handleCopyLink = async () => {
                 }}
               >
                 {isVideo ? (
-                  <video
-                    src={file}
-                    controls
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    style={{
-                      display: "block",
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "contain",
-                    }}
-                  />
-                ) : (
+  <LazyVideo src={file} />
+) : (
                   <img
                     src={file}
                     alt={`${lightbox.project.title} — imagem ${index + 1}`}

@@ -3,7 +3,7 @@ import Star from "@/imports/Star/estrela";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 
 export default function StarCursor() {
-  const isMobile = useMediaQuery("(max-width:768px)");
+  const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
   const [pos, setPos] = useState({
     x: -200,
@@ -11,7 +11,7 @@ export default function StarCursor() {
   });
 
   useEffect(() => {
-    if (isMobile) return;
+    if (!canHover) return;
 
     const onMove = (e: MouseEvent) => {
       setPos({
@@ -23,9 +23,9 @@ export default function StarCursor() {
     window.addEventListener("mousemove", onMove);
 
     return () => window.removeEventListener("mousemove", onMove);
-  }, [isMobile]);
+  }, [canHover]);
 
-  if (isMobile) return null;
+  if (!canHover) return null;
 
   return (
     <div

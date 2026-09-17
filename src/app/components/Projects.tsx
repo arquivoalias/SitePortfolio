@@ -20,6 +20,8 @@ function createProjectSlug(title: string) {
 export default function Projects() {
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const [showTools, setShowTools] = useState(false);
+  const [toolsHovered, setToolsHovered] = useState(false);
 
 const [lightbox, setLightbox] = useState<{
   images: string[];
@@ -100,7 +102,7 @@ const openProject = (
     <>
       <section
         id="projetos" style={{  scrollMarginTop: 60,}}
-        className="max-w-7xl mx-auto px-6 py-28"
+        className="max-w-7xl mx-auto px-6 pt-10 pb-28"
       >
         <div className="mb-10">
           <h2
@@ -131,7 +133,7 @@ const openProject = (
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="flex flex-wrap gap-2 mb-4">
           <FilterTag
             label="Todos"
             active={activeTag === null}
@@ -151,22 +153,58 @@ const openProject = (
             />
           ))}
 
-          {allToolTags.map((tag) => (
-            <FilterTag
-              key={tag}
-              label={tag}
-              active={activeTag === tag}
-              variant="tool"
-              onClick={() =>
-                setActiveTag(activeTag === tag ? null : tag)
-              }
-            />
-          ))}
+          <MagneticButton strength={0.2}>
+  <button
+    type="button"
+    onClick={() => setShowTools(!showTools)}
+    onMouseEnter={() => setToolsHovered(true)}
+    onMouseLeave={() => setToolsHovered(false)}
+    className="px-4 py-1.5 transition-all duration-200"
+    style={{
+      fontFamily: "'Inconsolata', monospace",
+      fontSize: "0.75rem",
+      letterSpacing: "0.06em",
+
+      background: showTools
+        ? "var(--foreground)"
+        : toolsHovered
+          ? "rgba(58,89,66,0.15)"
+          : "transparent",
+
+      color: showTools
+        ? "var(--primary-foreground)"
+        : "var(--foreground)",
+
+      border: `1px solid ${
+        showTools
+          ? "var(--foreground)"
+          : "rgba(58,89,66,0.25)"
+      }`,
+    }}
+  >
+    Ferramentas {showTools ? "↑" : "↓"}
+  </button>
+</MagneticButton>
+{showTools && (
+  <div className="w-full flex flex-wrap gap-2 pt-2">
+    {allToolTags.map((tag) => (
+      <FilterTag
+        key={tag}
+        label={tag}
+        active={activeTag === tag}
+        variant="tool"
+        onClick={() =>
+          setActiveTag(activeTag === tag ? null : tag)
+        }
+      />
+    ))}
+  </div>
+)}
         </div>
                 {/* Grid */}
         {activeTag === null ? (
           <>
-            <div className="grid grid-cols-2 gap-5 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
               {displayedProjects
                 .filter((p) => p.featured)
                 .map((p) => (
@@ -181,7 +219,7 @@ const openProject = (
                 ))}
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               {displayedProjects
                 .filter((p) => !p.featured)
                 .map((p) => (
@@ -197,7 +235,7 @@ const openProject = (
             </div>
           </>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {displayedProjects.length > 0 ? (
               displayedProjects.map((p) => (
                 <ProjectCard

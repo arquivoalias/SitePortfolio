@@ -516,7 +516,7 @@ function FilterTag5() {
     <div className="content-stretch flex flex-col h-[31.6px] items-center justify-center px-[16.8px] py-[6.8px] relative shrink-0" data-name="FilterTag">
       <div aria-hidden className="absolute border-[0.8px] border-[rgba(184,77,106,0.2)] border-solid inset-0 pointer-events-none" />
       <p className="[word-break:break-word] font-['Inconsolata:Medium',sans-serif] font-medium leading-[18px] relative shrink-0 text-[#b84d6a] text-[12px] text-center tracking-[0.72px] whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
-        Dados
+        Divulgação
       </p>
     </div>
   );
@@ -527,24 +527,13 @@ function FilterTag6() {
     <div className="content-stretch flex flex-col h-[31.6px] items-center justify-center px-[16.8px] py-[6.8px] relative shrink-0" data-name="FilterTag">
       <div aria-hidden className="absolute border-[0.8px] border-[rgba(184,77,106,0.2)] border-solid inset-0 pointer-events-none" />
       <p className="[word-break:break-word] font-['Inconsolata:Medium',sans-serif] font-medium leading-[18px] relative shrink-0 text-[#b84d6a] text-[12px] text-center tracking-[0.72px] whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
-        Divulgação
-      </p>
-    </div>
-  );
-}
-
-function FilterTag7() {
-  return (
-    <div className="content-stretch flex flex-col h-[31.6px] items-center justify-center px-[16.8px] py-[6.8px] relative shrink-0" data-name="FilterTag">
-      <div aria-hidden className="absolute border-[0.8px] border-[rgba(184,77,106,0.2)] border-solid inset-0 pointer-events-none" />
-      <p className="[word-break:break-word] font-['Inconsolata:Medium',sans-serif] font-medium leading-[18px] relative shrink-0 text-[#b84d6a] text-[12px] text-center tracking-[0.72px] whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
         Social Media
       </p>
     </div>
   );
 }
 
-function FilterTag8() {
+function FilterTag7() {
   return (
     <div className="content-stretch flex flex-col h-[31.6px] items-center justify-center px-[16.8px] py-[6.8px] relative shrink-0" data-name="FilterTag">
       <div aria-hidden className="absolute border-[0.8px] border-[rgba(58,89,66,0.2)] border-solid inset-0 pointer-events-none" />
@@ -555,7 +544,7 @@ function FilterTag8() {
   );
 }
 
-function FilterTag9() {
+function FilterTag8() {
   return (
     <div className="content-stretch flex flex-col h-[31.6px] items-center justify-center px-[16.8px] py-[6.8px] relative shrink-0" data-name="FilterTag">
       <div aria-hidden className="absolute border-[0.8px] border-[rgba(58,89,66,0.2)] border-solid inset-0 pointer-events-none" />
@@ -566,7 +555,7 @@ function FilterTag9() {
   );
 }
 
-function FilterTag10() {
+function FilterTag9() {
   return (
     <div className="content-stretch flex flex-col h-[31.6px] items-center justify-center px-[16.8px] py-[6.8px] relative shrink-0" data-name="FilterTag">
       <div aria-hidden className="absolute border-[0.8px] border-[rgba(58,89,66,0.2)] border-solid inset-0 pointer-events-none" />
@@ -577,7 +566,7 @@ function FilterTag10() {
   );
 }
 
-function FilterTag11() {
+function FilterTag10() {
   return (
     <div className="content-stretch flex flex-col h-[31.6px] items-center justify-center px-[16.8px] py-[6.8px] relative shrink-0" data-name="FilterTag">
       <div aria-hidden className="absolute border-[0.8px] border-[rgba(58,89,66,0.2)] border-solid inset-0 pointer-events-none" />
@@ -588,7 +577,7 @@ function FilterTag11() {
   );
 }
 
-function FilterTag12() {
+function FilterTag11() {
   return (
     <div className="content-stretch flex flex-col h-[31.6px] items-center justify-center px-[16.8px] py-[6.8px] relative shrink-0" data-name="FilterTag">
       <div aria-hidden className="absolute border-[0.8px] border-[rgba(58,89,66,0.2)] border-solid inset-0 pointer-events-none" />
@@ -809,16 +798,6 @@ function Text4() {
   );
 }
 
-function Text5() {
-  return (
-    <div className="absolute bg-[rgba(184,77,106,0.12)] content-stretch flex flex-col h-[24.8px] items-start left-[57.13px] px-[10px] py-[4px] top-0" data-name="Text">
-      <p className="[word-break:break-word] font-['Inconsolata:Regular',sans-serif] font-normal leading-[16.8px] relative shrink-0 text-[#b84d6a] text-[11.2px] tracking-[0.224px] whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
-        Dados
-      </p>
-    </div>
-  );
-}
-
 function Text6() {
   return (
     <div className="absolute bg-[rgba(58,89,66,0.12)] content-stretch flex flex-col h-[24.8px] items-start left-[114px] px-[10px] py-[4px] top-[0.46px]" data-name="Text">
@@ -834,7 +813,6 @@ function Container13() {
     <div className="h-[45.6px] relative shrink-0 w-full" data-name="Container">
       <div aria-hidden className="absolute border-[rgba(184,77,106,0.3)] border-b-[0.8px] border-solid inset-0 pointer-events-none" />
       <Text4 />
-      <Text5 />
       <Text6 />
     </div>
   );

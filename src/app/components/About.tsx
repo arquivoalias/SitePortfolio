@@ -1,4 +1,5 @@
-import type { Dispatch, SetStateAction, CSSProperties } from "react";
+import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 import TypewriterText from "./TypewriterText";
 import MagneticButton from "./MagneticButton";
@@ -16,6 +17,8 @@ export default function About({
   profilePhoto,
   setCvOpen,
 }: AboutProps) {
+  const [cvHovered, setCvHovered] = useState(false);
+
   return (
  <section
   id="sobre"
@@ -30,11 +33,11 @@ export default function About({
               <p className="text-accent mb-6" style={{ fontFamily: "'Inconsolata', monospace", fontSize: "0.9rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>
                 Sobre
               </p>
-              <h2 className="text-foreground leading-tight mb-8" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(2rem, 4vw, 3.25rem)", fontWeight: 600, letterSpacing: "-0.03em" }}>
+              <h2 className="text-foreground leading-tight mb-8" style={{ textWrap: "balance", fontFamily: "'Outfit', sans-serif", fontSize: "clamp(2rem, 4vw, 3.25rem)", fontWeight: 600, letterSpacing: "-0.03em" }}>
                 <TypewriterText text="Prazer em te conhecer!" />
               </h2>
 
-              <p className="leading-relaxed mb-5" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.95rem", color: "#5e7e67" }}>
+              <p className="leading-relaxed mb-6" style={{ textWrap: "pretty", fontFamily: "'Outfit', sans-serif", fontSize: "0.95rem", color: "#5e7e67" }}>
                 Me chamo{" "}
                 <strong style={{ fontWeight: 600, color: "var(--accent)" }}>Valentina</strong>
                 {", sou carioca da gema, moradora de Botafogo e há 21 anos sou obcecada por "}
@@ -46,7 +49,7 @@ export default function About({
                 {", e minha formatura está prevista para Julho de 2028."}
               </p>
 
-              <p className="leading-relaxed mb-5" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.95rem", color: "#5e7e67" }}>
+              <p className="leading-relaxed mb-6" style={{ textWrap: "pretty", fontFamily: "'Outfit', sans-serif", fontSize: "0.95rem", color: "#5e7e67" }}>
                 {"Meu coração está nas aulas projetuais, especialmente em "}
                 <strong style={{ fontWeight: 600, color: "var(--accent)" }}>Branding</strong>
                 {" e "}
@@ -59,11 +62,22 @@ export default function About({
                 <strong style={{ fontWeight: 600, color: "var(--accent)" }}>divulgação</strong>.
               </p>
 
-              <p className="leading-relaxed mb-5" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--accent)", lineHeight: 1.4 }}>
-                O que mais me anima é usar o design para encontrar o seu público e falar exatamente a língua dele.
-              </p>
+              <p
+  className="mb-7"
+  style={{
+    fontFamily: "'Outfit', sans-serif",
+    fontSize: "clamp(1.15rem, 2vw, 1.35rem)",
+    fontWeight: 700,
+    color: "var(--accent)",
+    lineHeight: 1.35,
+    maxWidth: "32rem",
+    textWrap: "balance",
+  }}
+>
+  O que mais me anima é usar o design para encontrar o seu público e falar a língua dele.
+</p>
 
-              <p className="leading-relaxed mb-8" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.95rem", color: "#5e7e67" }}>
+              <p className="leading-relaxed mb-8" style={{ textWrap: "pretty", fontFamily: "'Outfit', sans-serif", fontSize: "0.95rem", color: "#5e7e67" }}>
                 {"Fora do ateliê você me encontra pegando uma "}
                 <strong style={{ fontWeight: 600, color: "var(--accent)" }}>praia</strong>
                 {", num "}
@@ -80,11 +94,23 @@ export default function About({
 
               <MagneticButton>
                 <button
-                  onClick={() => setCvOpen(true)}
-                  className="inline-flex items-center justify-center transition-colors hover:opacity-80"
-                  style={{ background: "var(--foreground)", color: "var(--primary-foreground)", fontFamily: "'Inconsolata', monospace", fontSize: "0.875rem", letterSpacing: "-0.03em", padding: "10px 20px" }}
-                >
-                  Veja meu currículo (PDF)
+  onClick={() => setCvOpen(true)}
+  onMouseEnter={() => setCvHovered(true)}
+  onMouseLeave={() => setCvHovered(false)}
+  className="inline-flex items-center justify-center"
+  style={{
+    background: cvHovered ? "#3A5942" : "transparent",
+    color: cvHovered ? "#E8EEE0" : "var(--foreground)",
+    fontFamily: "'Inconsolata', monospace",
+    fontSize: "0.8rem",
+    letterSpacing: "0.02em",
+    padding: "9px 16px",
+    border: `1px solid ${
+      cvHovered ? "#3A5942" : "rgba(58,89,66,.35)"
+    }`,
+    transition: "all 0.2s ease",
+  }}
+>                 Veja meu currículo (PDF)
                 </button>
               </MagneticButton>
             </div>
@@ -94,21 +120,22 @@ export default function About({
 <div
   className="relative shrink-0 overflow-visible mx-auto"
   style={{
-    width: "min(400px, calc(100vw - 48px))",
-    aspectRatio: "480/550",
-  }}
+  width: "clamp(280px, 38vw, 360px)",
+  maxWidth: "100%",
+  aspectRatio: "480/550",
+}}
 >
   {/* Estrela superior grande */}
   <div
-    className="absolute pointer-events-none"
+    className="absolute pointer-events-none about-star-top-large"
     style={{
-      top: "clamp(-40px, -6vw, -110px)",
-left: "clamp(-35px, -5vw, -120px)",
-      width: "clamp(90px, 18vw, 150px)",
-height: "clamp(90px, 18vw, 150px)",
-      zIndex: 2,
-      animation: "floatStarA 5s ease-in-out infinite",
-    }}
+  top: "-45px",
+  left: "-45px",
+  width: "clamp(90px, 15vw, 150px)",
+  height: "clamp(90px, 15vw, 150px)",
+  zIndex: 2,
+  animation: "floatStarA 5s ease-in-out infinite",
+}}
   >
     <Star 
       width="100%"
@@ -120,15 +147,15 @@ height: "clamp(90px, 18vw, 150px)",
 
   {/* Estrela superior pequena */}
   <div
-    className="absolute pointer-events-none"
+    className="absolute pointer-events-none about-star-top-small"
     style={{
-      top: "clamp(65px, 18vw, 120px)",
-      left: "clamp(-18px, -12vw, -50px)",
-      width: "clamp(32px, 7vw, 60px)",
-height: "clamp(32px, 7vw, 60px)",
-      zIndex: 2,
-      animation: "floatStarB 4.5s ease-in-out infinite",
-    }}
+  top: "70px",
+  left: "-25px",
+  width: "clamp(32px, 6vw, 60px)",
+  height: "clamp(32px, 6vw, 60px)",
+  zIndex: 2,
+  animation: "floatStarB 4.5s ease-in-out infinite",
+}}
   >
     <Star
       width="100%"
@@ -163,15 +190,15 @@ height: "clamp(32px, 7vw, 60px)",
 
   {/* Estrela inferior grande */}
   <div
-    className="absolute pointer-events-none"
+    className="absolute pointer-events-none about-star-bottom-large"
     style={{
-      bottom: "clamp(-20px, -4vw, -35px)",
-right: "clamp(-20px, -4vw, -35px)",
-      width: "clamp(45px, 11vw, 90px)",
-height: "clamp(45px, 11vw, 90px)",
-      zIndex: 2,
-      animation: "floatStarA 5s ease-in-out infinite",
-    }}
+  bottom: "-25px",
+  right: "-25px",
+  width: "clamp(45px, 9vw, 90px)",
+  height: "clamp(45px, 9vw, 90px)",
+  zIndex: 2,
+  animation: "floatStarA 5s ease-in-out infinite",
+}}
   >
     <Star
       width="100%"
@@ -183,15 +210,15 @@ height: "clamp(45px, 11vw, 90px)",
 
   {/* Estrela inferior pequena */}
   <div
-    className="absolute pointer-events-none"
+    className="absolute pointer-events-none about-star-bottom-small"
     style={{
-      bottom: "clamp(-20px, -10vw, -55px)",
-      right: "clamp(10px, 12vw, 70px)",
-      width: "clamp(22px, 5vw, 42px)",
-height: "clamp(22px, 5vw, 42px)",
-      zIndex: 2,
-      animation: "floatStarB 4.5s ease-in-out infinite",
-    }}
+  bottom: "-35px",
+  right: "40px",
+  width: "clamp(22px, 4vw, 42px)",
+  height: "clamp(22px, 4vw, 42px)",
+  zIndex: 2,
+  animation: "floatStarB 4.5s ease-in-out infinite",
+}}
   >
     <Star
       width="100%"
@@ -205,7 +232,7 @@ height: "clamp(22px, 5vw, 42px)",
 
           {/* Skills */}
           <div
-  className="grid grid-cols-2 md:flex md:justify-between"
+  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
   style={{
     gap: "1.8rem",
   }}
@@ -221,18 +248,38 @@ height: "clamp(22px, 5vw, 42px)",
   className="relative"
   style={{
   width: "100%",
-  flex: 1,
   textAlign: "left",
 }}
 >{index < 3 && (
   <div
-    className="hidden md:block"
+    className={`
+      hidden
+      lg:block
+      absolute
+      right-[-0.9rem]
+      top-2
+      bottom-2
+      w-px
+    `}
     style={{
-      position: "absolute",
-      right: 0,
-      top: "8px",
-      bottom: "8px",
-      width: "1px",
+      background: "rgba(70,90,70,.12)",
+    }}
+  />
+)}
+
+{index % 2 === 0 && (
+  <div
+    className="
+      hidden
+      sm:block
+      lg:hidden
+      absolute
+      right-[-0.9rem]
+      top-2
+      bottom-2
+      w-px
+    "
+    style={{
       background: "rgba(70,90,70,.12)",
     }}
   />
@@ -242,11 +289,25 @@ height: "clamp(22px, 5vw, 42px)",
                   fontSize: "clamp(.72rem,2vw,.9rem)", letterSpacing: "0.12em", textTransform: "uppercase" }}>
                   {group.area}
                 </p>
-                <ul className="space-y-1.5">
-                  {group.items.map((item) => (
-                    <li key={item} className="text-muted-foreground" style={{ fontSize: "0.875rem" }}>{item}</li>
-                  ))}
-                </ul>
+                <ul
+  className="space-y-1.5 md:space-y-1.5"
+  style={{ textWrap: "pretty" }}
+>
+  {group.items.map((item, index) => (
+  <li
+    key={item}
+    className="text-muted-foreground inline md:block"
+    style={{
+      fontSize: "0.875rem",
+    }}
+  >
+    {item}
+    {index < group.items.length - 1 && (
+      <span className="md:hidden"> · </span>
+    )}
+  </li>
+))}
+</ul>
               </div>
             ))}
           </div>
