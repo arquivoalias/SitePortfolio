@@ -24,6 +24,17 @@ import jaleco from "@/assets-web/jalecomockup.webp";
 import isa1 from "@/assets-web/isamockup1.webp";
 import isa2 from "@/assets-web/isamockup2.webp";
 import isa3 from "@/assets-web/isamockup3.webp";
+import miguel from "@/assets-web/flyer_3110.webp";
+import tear1 from "@/assets-web/tear1.webp";
+import tear2 from "@/assets-web/tear2.webp";
+import tear3 from "@/assets-web/tear3.webp";
+import tear4 from "@/assets-web/tear4.webp";
+import tear5 from "@/assets-web/tear5.webp";
+import tear6 from "@/assets-web/tear6.webp";
+import tear7 from "@/assets-web/tear7.webp";
+import tear8 from "@/assets-web/tear8.webp";
+import tear9 from "@/assets-web/tear9.webp";
+import tear10 from "@/assets-web/tear10.webp";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 export const projects: Project[] = [
@@ -41,6 +52,18 @@ export const projects: Project[] = [
   },
   {
     id: 2,
+    title: "Coletivo Tear",
+    category: "Identidade Visual",
+    year: "2026",
+    description: "Identidade visual de coletivo de artesãs para projeto acadêmico.",
+    tags: ["Identidade Visual"],
+    tools: ["Figma", "Adobe Illustrator", "Adobe Photoshop"],
+    images: [tear1, tear2, tear3, tear4, tear5, tear6, tear7, tear8, tear9, tear10],
+    featured: true,
+    cardBg: "#ffd38c",
+  },
+  {
+    id: 3,
     title: "Observatório da Percepção do Crime",
     category: "UX/UI",
     year: "2025",
@@ -48,11 +71,11 @@ export const projects: Project[] = [
     tags: ["UX/UI"],
     tools: ["Figma"],
     images: [obs1, obs2, obs3],
-    featured: true,
+    featured: false,
     cardBg: "#ffd38c",
   },
   {
-    id: 3,
+    id: 4,
     title: "Trio Indecente",
     category: "Identidade Visual",
     year: "2025",
@@ -64,7 +87,7 @@ export const projects: Project[] = [
     cardBg: "#E8D094",
   },
   {
-    id: 4,
+    id: 5,
     title: "Coleção Fantástica",
     category: "Design Editorial",
     year: "2025",
@@ -76,7 +99,7 @@ export const projects: Project[] = [
     cardBg: "#e8ddd0",
   },
   {
-    id: 5,
+    id: 6,
     title: "Baralho de Tarô",
     category: "Identidade Visual",
     year: "2025",
@@ -88,28 +111,16 @@ export const projects: Project[] = [
     cardBg: "#BDBDDB",
   },
  {
-    id: 6,
-    title: "Dra Tássia Maria",
+    id: 7,
+    title: "Flyer Miguel Werneck",
     category: "Identidade Visual",
     year: "2026",
-    description: "Identidade visual, jaleco e papelaria para a Dra Tássia Maria.",
-    tags: ["Identidade Visual", "Ilustração"],
-    tools: ["Figma", "Adobe Illustrator", "Adobe InDesign"],
-    images: [manual1, receituario, jaleco],
+    description: "Post de divulgação de show.",
+    tags: ["Social Media", "Divulgação"],
+    tools: ["Figma", "Adobe Photoshop", "Adobe Illustrator"],
+    images: [miguel],
     featured: false,
-    cardBg: "#f5d7f5",
-  },
-  {
-    id: 7,
-    title: "Meio Fio",
-    category: "Identidade Visual",
-    year: "2025",
-    description: "Identidade visual e divulgação para banda de jazz.",
-    tags: ["Identidade Visual", "Social Media", "Divulgação"],
-    tools: ["Adobe Photoshop", "Figma", "Adobe InDesign"],
-    images: [mfCelular, mfLogo],
-    featured: false,
-    cardBg: "#3a3a3a",
+    cardBg: "#162c8d",
   },
     {
     id: 8,
@@ -125,6 +136,18 @@ export const projects: Project[] = [
   },
    {
     id: 9,
+    title: "Meio Fio",
+    category: "Identidade Visual",
+    year: "2025",
+    description: "Identidade visual e divulgação para banda de jazz.",
+    tags: ["Identidade Visual", "Social Media", "Divulgação"],
+    tools: ["Adobe Photoshop", "Figma", "Adobe InDesign"],
+    images: [mfCelular, mfLogo],
+    featured: false,
+    cardBg: "#3a3a3a",
+  },
+   {
+    id: 10,
     title: "Calibre 22 — Rubem Fonseca",
     category: "Design Editorial",
     year: "2024",
@@ -136,7 +159,7 @@ export const projects: Project[] = [
     cardBg: "#f0e4e0",
   },
   {
-    id: 10,
+    id: 11,
     title: "Inclui+",
     category: "UX/UI",
     year: "2024",
@@ -148,7 +171,7 @@ export const projects: Project[] = [
     cardBg: "#f5c800",
   },
   {
-    id: 11,
+    id: 12,
     title: "NUNO",
     category: "Identidade Visual",
     year: "2025",
@@ -160,7 +183,7 @@ export const projects: Project[] = [
     cardBg: "#A2414C",
   },
   {
-    id: 12,
+    id: 13,
     title: "Rafa Portella Quarteto",
     category: "Identidade Visual",
     year: "2025",
@@ -172,7 +195,7 @@ export const projects: Project[] = [
     cardBg: "#A8BB5B",
   },
   {
-    id: 13,
+    id: 14,
     title: "Manual do Astrólogo",
     category: "Design Editorial",
     year: "2024",
@@ -182,5 +205,17 @@ export const projects: Project[] = [
     images: [manualAstrologo, manualAstrologo2],
     featured: false,
     cardBg: "#ccd4e8",
-  }
+  },
+   {
+    id: 15,
+    title: "Dra Tássia Maria",
+    category: "Identidade Visual",
+    year: "2026",
+    description: "Identidade visual, jaleco e papelaria para a Dra Tássia Maria.",
+    tags: ["Identidade Visual", "Ilustração"],
+    tools: ["Figma", "Adobe Illustrator", "Adobe InDesign"],
+    images: [manual1, receituario, jaleco],
+    featured: false,
+    cardBg: "#f5d7f5",
+  },
 ];
